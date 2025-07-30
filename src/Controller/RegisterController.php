@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Connection\Database;
+use App\Web\ApiResponse;
 use PDO;
 use PDOException;
 
@@ -13,16 +15,13 @@ class RegisterController {
         $this->path = '/register';
     }
 
-    public function registerNewUser(PDO $connection) {
+    public function registerNewUser(Database $database) {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         if(
             $requestMethod !== 'POST'
         ) {
-            die(json_encode([
-                'message' => 'Method Not Allowed',
-                'status' => 405
-            ]));
+            die(ApiResponse::respondMethodNotAllowed());
         }
 
         // When using json as request the PHP does not automatically populate POST
@@ -30,49 +29,36 @@ class RegisterController {
         $data = json_decode($json, true);
         
         if($data === null) {
-            die(json_encode([
-                'message' => 'Bad Request', 
-                'status' => 400])
-            );
+            die(ApiResponse::respondBadRequest());
         }
-
+        
         if(! array_key_exists('name', $data)) {
-            die(json_encode([
-                'message' => 'Bad Request', 
-                'status' => 400])
-            );
+            die(ApiResponse::respondBadRequest());
         }
         
         if(empty($data['name'])) {
-            die(json_encode([
-                'message' => 'Bad Request', 
-                'status' => 400])
-            );
+            die(ApiResponse::respondBadRequest());
         }
 
         try {
             // `Treat as string literal`
             // Placeholder should not be wrapped 
             $query = 'INSERT INTO `user` (`name`) VALUES (:name)';
-            $stmt = $connection->prepare($query);
-            $stmt->bindParam(':name', $data['name']);
+            $stmt = $database->getConnection()->prepare($query);
+            $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
             $stmt->execute();
         } catch(PDOException $pdoException) {
             die($pdoException);
-            
-        }
-        if($stmt->rowCount() > 0) {
-            die(json_encode([
-                'message' => 'User Created', 
-                'status' => 201])
-            );
-        } else {
-            die(json_encode([
-                'message' => 'Internal Server Error', 
-                'status' => 500])
-            );
+
+        $pdo->closeConnection();            
         }
 
+        if($stmt->rowCount() === 0) {
+            die(ApiResponse::respondInternalServerError());
+        }
+
+        $database->closeConnection();
+        die(ApiResponse::respondCreated(createdResource: 'User Created'));
     }
 
     public function getPath(): string 

@@ -5,8 +5,7 @@ namespace App\Connection;
 use PDO;
 
 class Database {
-
-    private string $connection;
+    private ?PDO $pdo;
 
     public function __construct(
                             private string $host, 
@@ -18,10 +17,16 @@ class Database {
     }
 
     public function getConnection(): PDO {
-        return new PDO(
+        $this->pdo = new PDO(
             dsn: "mysql:host=$this->host;dbname=$this->databaseName;charset=$this->charset;",
             username: $this->username,
             password: $this->password
         );
+
+        return $this->pdo;
+    }
+
+    public function closeConnection() {
+        $this->pdo = null;
     }
 }
