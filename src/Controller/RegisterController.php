@@ -15,7 +15,12 @@ class RegisterController {
         $this->path = '/register';
     }
 
-    public function registerNewUser(Database $database) {
+    public function getPath(): string 
+    {
+        return $this->path;
+    } 
+
+    public function registerNewUser(Database $database): void  {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         if(
@@ -48,7 +53,7 @@ class RegisterController {
             $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
             $stmt->execute();
         } catch(PDOException $pdoException) {
-            die($pdoException);
+            die(ApiResponse::respondInternalServerError(message:$pdoException->getMessage()));
 
         $pdo->closeConnection();            
         }
@@ -60,9 +65,4 @@ class RegisterController {
         $database->closeConnection();
         die(ApiResponse::respondCreated(createdResource: 'User Created'));
     }
-
-    public function getPath(): string 
-    {
-        return $this->path;
-    } 
 }

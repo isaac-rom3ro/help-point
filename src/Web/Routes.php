@@ -5,13 +5,13 @@ namespace App\Web;
 class Routes {
     private array $routes;
     
-    public function addNewRoute(string $path, callable $callback) {
+    public function addNewRoute(string $path, ?callable $callback): void {
         // Will save our routes and their functions
         // $routes = [ path => $callback ]
         $this->routes[$path] = $callback;
     }
 
-    public function run() {
+    public function run(): void {
         $uri = $_SERVER['REQUEST_URI'];
 
         // The purpose is to match the requested URI to the route already saved

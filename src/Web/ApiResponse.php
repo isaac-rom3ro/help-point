@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace App\Web;
 
 class ApiResponse {
-    public static function respondCreated(string $createdResource) {
+    public static function respondCreated(string $createdResource): string | false {
         http_response_code(201);
         return json_encode([
                 'message' => "$createdResource", 
@@ -12,7 +12,7 @@ class ApiResponse {
             );
     }
 
-    public static function respondBadRequest() {
+    public static function respondBadRequest(): string | false {
         http_response_code(400);
         return json_encode([
                     'message' => 'Bad Request', 
@@ -20,7 +20,7 @@ class ApiResponse {
                 ]);
     } 
 
-    public static function respondMethodNotAllowed() {
+    public static function respondMethodNotAllowed(): string | false {
         http_response_code(405);
         return json_encode([
                     'message' => 'Method Not Allowed',
@@ -28,10 +28,14 @@ class ApiResponse {
                 ]);
     }
 
-    public static function respondInternalServerError() {
+    public static function respondInternalServerError
+    (
+        string $message = 'Internal Server Error'
+    ): string | false 
+    {
         http_response_code(500);
         return json_encode([
-                    'message' => 'Internal Server Error', 
+                    'message' => "$message", 
                     'status' => 500
                 ]);
     }

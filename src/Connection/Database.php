@@ -2,7 +2,9 @@
 
 namespace App\Connection;
 
+use App\Web\ApiResponse;
 use PDO;
+use PDOException;
 
 class Database {
     private ?PDO $pdo;
@@ -17,16 +19,20 @@ class Database {
     }
 
     public function getConnection(): PDO {
-        $this->pdo = new PDO(
-            dsn: "mysql:host=$this->host;dbname=$this->databaseName;charset=$this->charset;",
-            username: $this->username,
-            password: $this->password
-        );
+        try {
+            $this->pdo = new PDO(
+                dsn: "mysql:host=$this->host;dbname=$this->databaseName;charset=$this->charset;",
+                username: $this->username,
+                password: $this->password
+            );
+        } catch(PDOException $pdoException) {
+            die(ApiResponse::respondInternalServerError(message: $pdoException));
+        }
 
         return $this->pdo;
     }
 
-    public function closeConnection() {
+    public function closeConnection(): void {
         $this->pdo = null;
     }
 }
