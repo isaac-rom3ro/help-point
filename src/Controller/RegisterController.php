@@ -20,7 +20,7 @@ class RegisterController {
         return $this->path;
     } 
 
-    public function registerNewUser(Database $database): void  {
+    public function registerNewUser(Database $database)  {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
 
         if(
@@ -30,6 +30,7 @@ class RegisterController {
         }
 
         // When using json as request the PHP does not automatically populate POST
+        // expecting JSON
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
         
@@ -45,12 +46,16 @@ class RegisterController {
             die(ApiResponse::respondBadRequest());
         }
 
+        // Creates a random valid api key 
+        $api_key = bin2hex(random_bytes(16));
+
         try {
             // `Treat as string literal`
             // Placeholder should not be wrapped 
-            $query = 'INSERT INTO `user` (`name`) VALUES (:name)';
+            $query = 'INSERT INTO `user` (`name`, `api_key`) VALUES (:name, :api_key)';
             $stmt = $database->getConnection()->prepare($query);
             $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
+            $stmt->bindParam(':api_key', $api_key, PDO::PARAM_STR);
             $stmt->execute();
         } catch(PDOException $pdoException) {
             die(ApiResponse::respondInternalServerError(message:$pdoException->getMessage()));
