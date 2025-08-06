@@ -22,6 +22,9 @@ class Routes {
             // () in the final will executed the function
             $callback();
         }
+
+        http_response_code(404);
+        die('Not Found');
     }
 }
 

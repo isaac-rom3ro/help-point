@@ -22,7 +22,7 @@ class LoginController {
         if(
             $requestMethod !== 'POST'
         ) {
-            ApiResponse::respondMethodNotAllowed();
+            die(ApiResponse::respondMethodNotAllowed());
         }
 
         $json = file_get_contents('php://input');

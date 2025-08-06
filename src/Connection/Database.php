@@ -27,7 +27,7 @@ class Database {
                 password: $this->password
             );
         } catch(PDOException $pdoException) {
-            die(ApiResponse::respondInternalServerError(message: $pdoException));
+            die(ApiResponse::respondInternalServerError(message: $pdoException->getMessage()));
         }
 
         return $this->pdo;
