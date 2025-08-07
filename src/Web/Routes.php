@@ -3,29 +3,26 @@ declare(strict_types = 1);
 namespace App\Web;
 
 class Routes {
-    private array $routes;
-    
-    public function addNewRoute(string $path, ?callable $callback): void {
-        // Will save our routes and their functions
-        // $routes = [ path => $callback ]
-        $this->routes[$path] = $callback;
+    private array $routes = [];
+
+    public function addNewRoute(string $path, string $method, callable $callback): void {
+        $method = strtoupper($method);
+        $this->routes[$path][$method] = $callback;
     }
 
     public function run(): void {
-        $uri = $_SERVER['REQUEST_URI'];
+        $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        $uri = strtok($_SERVER['REQUEST_URI'], '?'); // Remove query string
 
-        // The purpose is to match the requested URI to the route already saved
-        foreach($this->routes as $path => $callback) {
-            if($uri !== $path) continue;
-
-            // Run if it matches with the url requested
-            // () in the final will executed the function
-            $callback();
+        if(! array_key_exists($uri, $this->routes)) {
+            die(ApiResponse::respondNotFound());
+        }
+        
+        if(! isset($this->routes[$uri][$method])) {
+            die(ApiResponse::respondMethodNotAllowed());
         }
 
-        http_response_code(404);
-        die('Not Found');
+        $this->routes[$uri][$method](); // Call the callback
+        return;
     }
 }
-
-

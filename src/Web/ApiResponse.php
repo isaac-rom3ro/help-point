@@ -20,6 +20,14 @@ class ApiResponse {
                 ]);
     } 
 
+    public static function respondNotFound(): string | false {
+        http_response_code(404);
+        return json_encode([
+                    'message' => 'Not Found', 
+                    'status' => 404
+        ]);
+    }
+
     public static function respondMethodNotAllowed(): string | false {
         http_response_code(405);
         return json_encode([

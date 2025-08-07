@@ -14,9 +14,17 @@ $database = new Database(host: $_ENV['DB_HOST'], databaseName: $_ENV['DB_NAME'],
 $routes = new Routes();
 
 $registerController = new RegisterController();
-$routes->addNewRoute(path: $registerController->getPath(), callback: fn() => $registerController->registerNewUser($database));
+$routes->addNewRoute(
+    path: $registerController->getPath(),
+    method: 'POST',
+    callback: fn() => $registerController->registerNewUser($database)
+);
 
 $loginController = new LoginController();
-$routes->addNewRoute(path: $loginController->getPath(), callback: fn() => $loginController->signIn());
+$routes->addNewRoute(
+    path: $loginController->getPath(),
+    method: 'POST',
+    callback: fn() => $loginController->signIn()
+);
 
-$routes->run(); 
+$routes->run();
