@@ -10,6 +10,7 @@ use PDOException;
 
 class RegisterController {
     private string $path;
+    private string $view;
 
     public function __construct() {
         $this->path = '/register';
@@ -20,15 +21,11 @@ class RegisterController {
         return $this->path;
     } 
 
+    public function getView() {
+        require __DIR__ . '/../../pages/Register/register.php';
+    }
+
     public function registerNewUser(Database $database)  {
-        $requestMethod = $_SERVER['REQUEST_METHOD'];
-
-        if(
-            $requestMethod !== 'POST'
-        ) {
-            die(ApiResponse::respondMethodNotAllowed());
-        }
-
         // When using json as request the PHP does not automatically populate POST
         // expecting JSON
         $json = file_get_contents('php://input');
@@ -68,6 +65,5 @@ class RegisterController {
         }
 
         $database->closeConnection();
-        die(ApiResponse::respondCreated(createdResource: 'User Created'));
     }
 }

@@ -4,6 +4,14 @@ declare(strict_types = 1);
 namespace App\Web;
 
 class ApiResponse {
+    public static function respondOK() {
+        http_response_code(200);
+        return json_encode([
+                'message' => 'OK', 
+                'status' => 200]
+            );
+    }
+
     public static function respondCreated(string $createdResource): string | false {
         http_response_code(201);
         return json_encode([
