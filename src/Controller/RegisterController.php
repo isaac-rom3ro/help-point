@@ -65,5 +65,7 @@ class RegisterController {
         }
 
         $database->closeConnection();
+
+        echo json_encode(['api_key' => $api_key]);
     }
 }

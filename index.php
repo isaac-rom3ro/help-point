@@ -25,5 +25,10 @@ $routes->addNewRoute(
     method: 'POST',
     callback: fn() => $loginController->signIn(database: $database)
 );
+$routes->addNewRoute(
+    path: $loginController->getPath(),
+    method: 'GET',
+    callback: fn() => $loginController->getView()
+);
 
 $routes->run();

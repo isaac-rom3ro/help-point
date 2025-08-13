@@ -20,6 +20,10 @@ class LoginController {
         return $this->path;
     }
 
+    public function getView() {
+        require __DIR__ . '/../../pages/Login/login.php';
+    }
+
     public function signIn(Database $database) {
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
