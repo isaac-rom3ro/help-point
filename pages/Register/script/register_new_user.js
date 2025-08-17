@@ -2,18 +2,8 @@ formSubmit = document.getElementById('form-register');
 formSubmit.addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const formData = new FormData();
-
     const name = document.querySelector('#input-name').value;
     const password = document.querySelector('#input-password').value;
-
-    formData.append('name', name);
-    formData.append('password', password);
-
-    // Show key and values from form
-    // formData.forEach((value, key) => {
-    //     console.log(key, value);
-    // });
 
     try {
         const url = 'http://localhost:8000/register';

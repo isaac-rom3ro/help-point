@@ -10,7 +10,6 @@ use PDOException;
 
 class RegisterController {
     private string $path;
-    private string $view;
 
     public function __construct() {
         $this->path = '/register';

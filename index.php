@@ -2,10 +2,18 @@
 require_once 'bootstrap.php';
 
 use App\Web\Routes;
+use App\Controller\IndexController;
 use App\Controller\LoginController;
 use App\Controller\RegisterController;
 
-    $routes = new Routes();
+$routes = new Routes();
+
+$indexController = new IndexController();
+$routes->addNewRoute(
+    path: $indexController->getPath(),
+    method: 'GET',
+    callback: fn() => $indexController->getView()
+);
 
 $registerController = new RegisterController();
 $routes->addNewRoute(
