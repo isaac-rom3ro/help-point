@@ -14,7 +14,7 @@
         <button type="submit">Register</button>
     </form>
 
-    <p id="p-api-key"></p>
+    <p id="p-error"></p>
 
     <!-- Get the url -->
     <a href="http://localhost:8000/login">Go to Login Page</a>

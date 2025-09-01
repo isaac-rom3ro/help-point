@@ -65,6 +65,9 @@ class RegisterController {
 
         $database->closeConnection();
 
-        echo json_encode(['api_key' => $api_key]);
+        session_start();
+        $_SESSION["api_key"];
+
+        die(ApiResponse::respondOK());
     }
 }

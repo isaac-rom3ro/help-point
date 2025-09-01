@@ -2,6 +2,7 @@ formSubmit = document.getElementById('form-register');
 formSubmit.addEventListener('submit', async function(e) {
     e.preventDefault();
 
+    const pError = document.querySelector('#p-error'); 
     const name = document.querySelector('#input-name').value;
     const password = document.querySelector('#input-password').value;
 
@@ -21,9 +22,19 @@ formSubmit.addEventListener('submit', async function(e) {
 
         const data = await response.json();
 
-        // Show the api_key
-        // Maybe let's save it inside a login?
-        document.querySelector('#p-api-key').innerHTML = `User registered, here it's your api key: ${data.api_key}`;
+        if (response.status === 500) {
+            // Internal Server Error
+            pError.innerHTML = "Internal Server Error";
+        }
+        if (response.status === 400) {
+            // Bad Request
+            pError.innerHTML = "Bad Request";
+        }
+        if (response.status === 200) {
+            // Success
+            location.href("http://localhost:8000/login")
+        }
+
     } catch(error) {
         console.log(error);
     }
