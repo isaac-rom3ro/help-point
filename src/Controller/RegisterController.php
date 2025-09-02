@@ -34,11 +34,11 @@ class RegisterController {
             die(ApiResponse::respondBadRequest());
         }
         
-        if(! array_key_exists('name', $data)) {
+        if(! array_key_exists('name', $data) || ! array_key_exists('password', $data)) {
             die(ApiResponse::respondBadRequest());
         }
         
-        if(empty($data['name'])) {
+        if(empty($data['name']) || empty($data['password'])) {
             die(ApiResponse::respondBadRequest());
         }
 
@@ -48,9 +48,10 @@ class RegisterController {
         try {
             // `Treat as string literal`
             // Placeholder should not be wrapped 
-            $query = 'INSERT INTO `user` (`name`, `api_key`) VALUES (:name, :api_key)';
+            $query = 'INSERT INTO `user` (`name`, `password`, `api_key`) VALUES (:name, :password, :api_key)';
             $stmt = $database->getConnection()->prepare($query);
             $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
+            $stmt->bindParam(':password', $data["password"], PDO::PARAM_STR);
             $stmt->bindParam(':api_key', $api_key, PDO::PARAM_STR);
             $stmt->execute();
         } catch(PDOException $pdoException) {
@@ -64,9 +65,6 @@ class RegisterController {
         }
 
         $database->closeConnection();
-
-        session_start();
-        $_SESSION["api_key"];
 
         die(ApiResponse::respondOK());
     }

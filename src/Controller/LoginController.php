@@ -32,18 +32,18 @@ class LoginController {
             die(ApiResponse::respondBadRequest());
         }
 
-        if(! array_key_exists('name', $data) || ! array_key_exists('api_key', $data)) {
+        if(! array_key_exists('name', $data) || ! array_key_exists('password', $data)) {
             die(ApiResponse::respondBadRequest());
         }
         
-        if(empty($data['name']) || empty($data['api_key'])) {
+        if(empty($data['name']) || empty($data['password'])) {
             die(ApiResponse::respondBadRequest());
         }
         
         try {
-            $query = 'SELECT `name` FROM user WHERE api_key = :api_key';
+            $query = 'SELECT `id`, `api_key` FROM user WHERE `password` = :password';
             $stmt = $database->getConnection()->prepare($query);
-            $stmt->bindParam(':api_key', $data['api_key'], PDO::PARAM_STR);
+            $stmt->bindParam(':password', $data['password'], PDO::PARAM_STR);
             $stmt->execute();
         } catch(PDOException $pdoException) {
             die(ApiResponse::respondInternalServerError(message:$pdoException->getMessage()));
@@ -56,8 +56,10 @@ class LoginController {
         }
 
         session_start();
-        $_SESSION['name'] = $response['name'];
+        $_SESSION['id'] = $response['id'];
+        $_SESSION['api_key'] = $response['api_key'];
         
+        // Instead of die here, let's redirect to the main page
         die(ApiResponse::respondOK());
     }
 }
