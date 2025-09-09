@@ -4,6 +4,7 @@ require_once 'bootstrap.php';
 use App\Web\Routes;
 use App\Controller\IndexController;
 use App\Controller\LoginController;
+use App\Controller\PointController;
 use App\Controller\RegisterController;
 
 $routes = new Routes();
@@ -37,6 +38,13 @@ $routes->addNewRoute(
     path: $loginController->getPath(),
     method: 'GET',
     callback: fn() => $loginController->getView()
+);
+
+$pointerController = new PointController();
+$routes->addNewRoute(
+    path: $pointerController->getPath(),
+    method: 'GET',
+    callback: fn() => $pointerController->getView()
 );
 
 $routes->run();

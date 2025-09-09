@@ -55,11 +55,19 @@ class LoginController {
             die(ApiResponse::respondNotFound());
         }
 
-        session_start();
-        $_SESSION['id'] = $response['id'];
-        $_SESSION['api_key'] = $response['api_key'];
+        // $info = base64_encode(json_encode([
+        //     "id" => $response["id"],
+        //     "api_key" => $response["api_key"]
+        // ]));
         
-        // Instead of die here, let's redirect to the main page
+        $token = TokenController::encode(
+            ["id", "api_key"],
+            [$response["id"], $response["id"]]
+        );
+
+        session_start();
+        $_SESSION["token"] = $token;
+
         die(ApiResponse::respondOK());
     }
 }

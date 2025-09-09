@@ -14,6 +14,8 @@
         <button type="submit">Login</button>
     </form>
 
+    <p id="p-error"></p>
+
     <!-- Get the url -->
     <a href="http://localhost:8000/register">Go to Register Page</a>
 

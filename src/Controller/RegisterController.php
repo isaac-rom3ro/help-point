@@ -45,13 +45,16 @@ class RegisterController {
         // Creates a random valid api key 
         $api_key = bin2hex(random_bytes(16));
 
+        // Hash for password
+        $hash = password_hash($data["password"], PASSWORD_DEFAULT);
+
         try {
             // `Treat as string literal`
             // Placeholder should not be wrapped 
             $query = 'INSERT INTO `user` (`name`, `password`, `api_key`) VALUES (:name, :password, :api_key)';
             $stmt = $database->getConnection()->prepare($query);
             $stmt->bindParam(':name', $data['name'], PDO::PARAM_STR);
-            $stmt->bindParam(':password', $data["password"], PDO::PARAM_STR);
+            $stmt->bindParam(':password', $hash, PDO::PARAM_STR);
             $stmt->bindParam(':api_key', $api_key, PDO::PARAM_STR);
             $stmt->execute();
         } catch(PDOException $pdoException) {

@@ -17,4 +17,10 @@ formLogin.addEventListener('submit', async function(e) {
             password: password
         })
     });
+
+    if (response.status === 200) {
+        location.href = "http://localhost:8000/pages/Point/point.php"
+    } else if(response.status === 404) {
+        document.querySelector("#p-error").innerHTML = "User not Found";
+    }
 }) ;
