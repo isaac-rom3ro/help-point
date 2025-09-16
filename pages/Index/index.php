@@ -7,7 +7,11 @@
 </head>
 <body>
     <h1>Hello User</h1>
+
     <p>To start using this API, you first need to register</p>
-    <p>go to <a href="http://localhost:8000/register">Click in me!</a></p>
+
+    <p>If you're an employee please visit this <a href="http://localhost:8000/register">link</a></p>
+    
+    <p>Administrative Tools can be used by Enterprises using this <a href="http://localhost:8000/adm/register">link</a> </p>
 </body>
 </html>

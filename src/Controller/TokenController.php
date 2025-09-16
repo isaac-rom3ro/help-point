@@ -23,4 +23,13 @@ class TokenController {
 
         return $token;
     }
+
+    public static function decode(string $token, string $key) 
+    {
+        if (empty($token)) {
+            return false;
+        }
+
+        return json_decode(base64_decode($token), true)[$key];
+    }
 }

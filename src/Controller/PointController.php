@@ -20,6 +20,13 @@ class PointController {
 
     public function getView() {
         session_start();
+
+        // The idea here is use the token, not JWT yet, to get informations about the user 
+        $id = TokenController::decode($_SESSION["token"] ?? null, "id");
+
+        // Get informations about the user 
+        // $this->getUserById($)
+
         require __DIR__ . '/../../pages/Point/point.php';
     }
 

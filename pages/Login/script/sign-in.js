@@ -19,7 +19,7 @@ formLogin.addEventListener('submit', async function(e) {
     });
 
     if (response.status === 200) {
-        location.href = "http://localhost:8000/pages/Point/point.php"
+        location.href = "http://localhost:8000/point"
     } else if(response.status === 404) {
         document.querySelector("#p-error").innerHTML = "User not Found";
     }

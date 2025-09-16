@@ -2,6 +2,9 @@
 require_once 'bootstrap.php';
 
 use App\Web\Routes;
+
+use App\Controller\Administrative\RegisterController as AdmRegisterController;
+
 use App\Controller\IndexController;
 use App\Controller\LoginController;
 use App\Controller\PointController;
@@ -45,6 +48,19 @@ $routes->addNewRoute(
     path: $pointerController->getPath(),
     method: 'GET',
     callback: fn() => $pointerController->getView()
+);
+
+$admRegisterController = new AdmRegisterController();
+$routes->addNewRoute(
+    path: $admRegisterController->getPath(),
+    method: 'GET',
+    callback: fn() => $admRegisterController->getView()
+);
+
+$routes->addNewRoute(
+    path: $admRegisterController->getPath(),
+    method: 'POST',
+    callback: fn() => $admRegisterController->registerNewCompany(database: $database)
 );
 
 $routes->run();

@@ -55,11 +55,6 @@ class LoginController {
             die(ApiResponse::respondNotFound());
         }
 
-        // $info = base64_encode(json_encode([
-        //     "id" => $response["id"],
-        //     "api_key" => $response["api_key"]
-        // ]));
-        
         $token = TokenController::encode(
             ["id", "api_key"],
             [$response["id"], $response["id"]]
