@@ -26,7 +26,15 @@ class ApiResponse {
                     'message' => 'Bad Request', 
                     'status' => 400
                 ]);
-    } 
+            } 
+            
+    public static function respondForbidden(): string | false {
+        http_response_code(403);
+        return json_encode([
+                    'message' => 'Forbidden', 
+                    'status' => 403
+                ]);
+    }
 
     public static function respondNotFound(): string | false {
         http_response_code(404);

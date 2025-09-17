@@ -32,7 +32,7 @@ formSubmit.addEventListener('submit', async function(e) {
         }
         if (response.status === 200) {
             // Success
-            location.href = "http://localhost:8000/login";
+            location.href = "http://localhost:8000/adm/login";
         }
 
     } catch(error) {

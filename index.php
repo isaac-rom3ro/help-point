@@ -4,6 +4,7 @@ require_once 'bootstrap.php';
 use App\Web\Routes;
 
 use App\Controller\Administrative\RegisterController as AdmRegisterController;
+use App\Controller\Administrative\LoginController as AdministrativeLoginController;
 
 use App\Controller\IndexController;
 use App\Controller\LoginController;
@@ -56,11 +57,22 @@ $routes->addNewRoute(
     method: 'GET',
     callback: fn() => $admRegisterController->getView()
 );
-
 $routes->addNewRoute(
     path: $admRegisterController->getPath(),
     method: 'POST',
     callback: fn() => $admRegisterController->registerNewCompany(database: $database)
+);
+
+$admLoginController = new AdministrativeLoginController();
+$routes->addNewRoute(
+    path: $admLoginController->getPath(),
+    method: 'GET',
+    callback: fn() => $admLoginController->getView()
+);
+$routes->addNewRoute(
+    path: $admLoginController->getPath(),
+    method: 'POST',
+    callback: fn() => $admLoginController->signIn(database: $database)
 );
 
 $routes->run();
