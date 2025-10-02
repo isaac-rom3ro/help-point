@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registrar Empresa</title>
+  <title>Entrar</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
@@ -71,14 +71,13 @@
       <a class="navbar-brand text-white" href="#">Brand</a>
     </nav>
 
-    <!-- Registration Form -->
+    <!-- Login Form -->
     <div class="content">
       <form id="form-container" class="form-container">
-        <h3 class="text-center mb-4">Registre sua Empresa</h3>
-        <input type="text" id="company-name" class="form-control" placeholder="Nome da Empresa">
+        <h3 class="text-center mb-4">Bem Vindo de Volta!</h3>
         <input type="text" id="company-cnpj" class="form-control" placeholder="CNPJ">
         <input type="password" id="company-password" class="form-control" placeholder="Senha">
-        <button type="submit" class="btn btn-primary mt-2">Registrar</button>
+        <button type="submit" class="btn btn-primary mt-2">Entrar</button>
       </form>
     </div>
   </div>

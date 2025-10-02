@@ -51,8 +51,8 @@
     <nav class="navbar w-100">
       <a class="navbar-brand text-white" href="#">Brand</a>
       <div class="nav-links">
-        <a href="/register">Registrar</a>
-        <a href="#">Entrar</a>
+        <a href="/company/register">Registrar</a>
+        <a href="/company/login">Entrar</a>
         <a href="#">Contatos</a>
         <a href="#">Sobre Nós</a>
       </div>
