@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('company', function (Blueprint $table) {
-            $table->id();
-            $table->string("name")->nullable(false)->unique();
-            $table->string("cnpj")->nullable(false)->unique();
-            $table->string("password")->nullable(false);
+            $table->uuid('id')->primary();
+            $table->string('name')->nullable(false)->unique();
+            $table->string('cnpj')->nullable(false)->unique();
+            $table->string('password')->nullable(false);
             $table->timestamps();
         });
     }

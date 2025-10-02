@@ -102,20 +102,18 @@
     form.addEventListener('submit', async function(event) {
         event.preventDefault(); 
 
-        const companyName = document.getElementById('company-name').value;
         const companyCNPJ = document.getElementById('company-cnpj').value;
         const companyPassword = document.getElementById('company-password').value;
 
-        const registerCompanyURL = '/company/register';  
+        const loginCompanyURL = '/company/login';  
 
-        const response = await fetch(registerCompanyURL, {
+        const response = await fetch(loginCompanyURL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             body: JSON.stringify({
-                companyName: companyName,
                 companyCNPJ: companyCNPJ,
                 companyPassword: companyPassword
             })

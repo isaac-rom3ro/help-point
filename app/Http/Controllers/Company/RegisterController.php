@@ -45,5 +45,7 @@ class RegisterController extends Controller
             'cnpj' => $companyCNPJ, 
             'password' => $companyPassword
         ]);
+
+        return response()->noContent(201);
     }
 }

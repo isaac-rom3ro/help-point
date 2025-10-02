@@ -18,6 +18,7 @@ Route::prefix('company')->name('company.')->group(function () {
 
     Route::prefix('login')->name('login.')->group(function() {
         Route::get('/', [LoginController::class, 'showLoginForm'])->name('show');
+        Route::post('/', [LoginController::class, 'login'])->name('login');
     });
-
+    
 });
