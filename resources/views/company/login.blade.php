@@ -120,6 +120,10 @@
         });
 
         console.log(response);
+
+        if (response.status === 200) {
+          location.href = '/company/dashboard';
+        }
   });
 </script>
 </body>
