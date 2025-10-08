@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -505,20 +506,20 @@ html, body {
             </button>
         </div>
         
-        <form>
+        <form id="form-store-employee">
             <div class="form-group">
                 <label class="form-label">Nome</label>
-                <input type="text" class="form-input" placeholder="Digite o nome completo">
+                <input type="text" id="employee-name" class="form-input" placeholder="Digite o nome completo">
             </div>
             
             <div class="form-group">
                 <label class="form-label">CPF</label>
-                <input type="text" class="form-input" placeholder="000.000.000-00">
+                <input type="text" id="employee-cpf"  class="form-input" placeholder="000.000.000-00">
             </div>
             
             <div class="form-group">
                 <label class="form-label">Cargo</label>
-                <input type="text" class="form-input" placeholder="Digite o cargo">
+                <input type="text" id="employee-role" class="form-input" placeholder="Digite o cargo">
             </div>
             
             <div class="form-group">
@@ -529,19 +530,68 @@ html, body {
                         <span class="tooltip-text">Carga horária de trabalho mensal</span>
                     </span>
                 </label>
-                <input type="number" class="form-input" placeholder="Ex: 160">
+                <input type="number" id="employee-assinged-hours"  class="form-input" placeholder="Ex: 160">
             </div>
             
             <div class="modal-actions">
                 <button type="button" class="btn-cancel" onclick="document.getElementById('modalOverlay').classList.remove('show');">
                     Cancelar
                 </button>
-                <button type="submit" class="btn-submit">
+                <button type="submit" id="btn-store-employee" class="btn-submit">
                     Adicionar
                 </button>
             </div>
         </form>
     </div>
+
+<!-- Jquery Lib -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+
+<!-- jQuery Mask Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+<script>
+  $(function () {
+    $('#employee-cpf').mask('000.000.000-00');
+  });
+</script>
+
+<script>
+    const form = document.getElementById('form-store-employee');
+    
+    form.addEventListener('submit', async function(event) {
+        event.preventDefault(); 
+
+        const employeeName = document.querySelector('#employee-name').value;
+        const employeeCpf = document.querySelector('#employee-cpf').value;
+        const employeeRole = document.querySelector('#employee-role').value;
+        const employeeAssigned_hours= document.querySelector('#employee-assinged-hours').value;
+
+        const storeEmployeeURL = '/company/dashboard/employee';  
+
+        const response = await fetch(storeEmployeeURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                employeeName: employeeName,
+                employeeCpf: employeeCpf,
+                employeeRole: employeeRole,
+                employeeAssigned_hours: employeeAssigned_hours
+            })
+        });
+
+        console.log(response);
+
+        // if (response.status === 200) {
+        //   location.href = '/company/dashboard';
+        // }
+    });
+</script>
 </div>
 </body>
 </html>

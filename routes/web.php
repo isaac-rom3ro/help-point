@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Company\LoginController;
 use App\Http\Controllers\Company\RegisterController;
 use App\Http\Controllers\Company\DashboardController;
+use App\Http\Controllers\Company\EmployeeController;
 
 Route::get('/', function () {
     return view('index');
@@ -25,5 +26,6 @@ Route::prefix('company')->name('company.')->group(function () {
 
     Route::prefix('dashboard')->name('dashboard.')->group(function() {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::post('/employee', [EmployeeController::class, 'store'])->name('store');
     });
 });
