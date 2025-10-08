@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -28,6 +28,7 @@ html, body {
     align-items: center;
     padding: 2rem 0;
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
 }
 
 .sidebar-icon {
@@ -59,6 +60,7 @@ html, body {
     display: flex;
     flex-direction: column;
     background-color: #f5f6fa;
+    min-width: 0;
 }
 
 /* Top bar */
@@ -70,6 +72,7 @@ html, body {
     justify-content: space-between;
     padding: 0 2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
 }
 
 .brand-title {
@@ -103,6 +106,7 @@ html, body {
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    overflow-y: auto;
 }
 
 .table-container {
@@ -110,8 +114,8 @@ html, body {
     border-radius: 0.75rem;
     padding: 2rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    width: 900px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 1100px;
 }
 
 .table-header {
@@ -121,6 +125,8 @@ html, body {
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 2px solid #f0f0f0;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .table-title {
@@ -153,10 +159,15 @@ html, body {
     color: white;
 }
 
+.table-wrapper {
+    overflow-x: auto;
+}
+
 .custom-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
+    min-width: 700px;
 }
 
 .custom-table thead th {
@@ -169,27 +180,11 @@ html, body {
     font-size: 0.9rem;
 }
 
-.custom-table thead th:first-child {
-    border-radius: 0.5rem 0 0 0;
-}
-
-.custom-table thead th:last-child {
-    border-radius: 0 0.5rem 0 0;
-}
-
 .custom-table tbody td {
     padding: 1rem;
     border-bottom: 1px solid #f0f0f0;
     color: #495057;
     font-size: 0.95rem;
-}
-
-.custom-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.custom-table tbody tr {
-    transition: background-color 0.2s ease;
 }
 
 .custom-table tbody tr:hover {
@@ -229,6 +224,8 @@ html, body {
     z-index: 1000;
     align-items: center;
     justify-content: center;
+    overflow-y: auto;
+    padding: 1rem;
 }
 
 .modal-overlay.show {
@@ -239,10 +236,11 @@ html, body {
     background-color: white;
     border-radius: 0.75rem;
     padding: 2rem;
-    width: 500px;
-    max-width: 90%;
+    width: 100%;
+    max-width: 500px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     position: relative;
+    margin: auto;
 }
 
 .modal-header {
@@ -266,17 +264,6 @@ html, body {
     font-size: 1.5rem;
     color: #6c757d;
     cursor: pointer;
-    transition: color 0.2s ease;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.close-button:hover {
-    color: #dc3545;
 }
 
 .form-group {
@@ -293,62 +280,13 @@ html, body {
     font-size: 0.95rem;
 }
 
-.help-icon {
-    color: #6c757d;
-    font-size: 1rem;
-    cursor: help;
-    position: relative;
-}
-
-.help-icon:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-}
-
-.tooltip-text {
-    visibility: hidden;
-    opacity: 0;
-    background-color: #2c3e50;
-    color: white;
-    text-align: center;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    font-size: 0.85rem;
-    font-weight: 400;
-    transition: opacity 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: #2c3e50 transparent transparent transparent;
-}
-
 .form-input {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;
     font-size: 0.95rem;
-    transition: border-color 0.2s ease;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    box-sizing: border-box;
 }
 
 .modal-actions {
@@ -357,56 +295,44 @@ html, body {
     margin-top: 2rem;
 }
 
-.btn-submit {
+.btn-submit, .btn-cancel {
     flex: 1;
-    background-color: #007bff;
-    color: white;
     border: none;
     border-radius: 0.5rem;
     padding: 0.75rem;
     font-size: 1rem;
     font-weight: 500;
+    color: white;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.btn-submit {
+    background-color: #007bff;
 }
 
 .btn-submit:hover {
     background-color: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
 }
 
 .btn-cancel {
-    flex: 1;
     background-color: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.75rem;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .btn-cancel:hover {
     background-color: #5a6268;
-    transform: translateY(-2px);
 }
 </style>
 </head>
 <body>
 <div class="dashboard-container">
-    <!-- Sidebar -->
     <aside class="sidebar">
         <a href="#" class="sidebar-icon active" title="Usuários">
             <i class="bi bi-people"></i>
         </a>
     </aside>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Top Bar -->
         <header class="top-bar">
             <div class="brand-title">Brand</div>
             <a href="#" class="profile-icon" title="Perfil">
@@ -414,7 +340,6 @@ html, body {
             </a>
         </header>
 
-        <!-- Content Area -->
         <main class="content-area">
             <div class="table-container">
                 <div class="table-header">
@@ -425,78 +350,39 @@ html, body {
                     </a>
                 </div>
                 
-                <table class="custom-table">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Cargo</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>João Silva</td>
-                            <td>Gerente</td>
-                            <td>
-                                <div class="action-icons">
-                                    <i class="bi bi-eye action-icon" title="Visualizar"></i>
-                                    <i class="bi bi-pencil action-icon" title="Editar"></i>
-                                    <i class="bi bi-trash action-icon delete" title="Excluir"></i>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Maria Santos</td>
-                            <td>Analista</td>
-                            <td>
-                                <div class="action-icons">
-                                    <i class="bi bi-eye action-icon" title="Visualizar"></i>
-                                    <i class="bi bi-pencil action-icon" title="Editar"></i>
-                                    <i class="bi bi-trash action-icon delete" title="Excluir"></i>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Pedro Costa</td>
-                            <td>Desenvolvedor</td>
-                            <td>
-                                <div class="action-icons">
-                                    <i class="bi bi-eye action-icon" title="Visualizar"></i>
-                                    <i class="bi bi-pencil action-icon" title="Editar"></i>
-                                    <i class="bi bi-trash action-icon delete" title="Excluir"></i>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ana Oliveira</td>
-                            <td>Designer</td>
-                            <td>
-                                <div class="action-icons">
-                                    <i class="bi bi-eye action-icon" title="Visualizar"></i>
-                                    <i class="bi bi-pencil action-icon" title="Editar"></i>
-                                    <i class="bi bi-trash action-icon delete" title="Excluir"></i>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Carlos Ferreira</td>
-                            <td>Coordenador</td>
-                            <td>
-                                <div class="action-icons">
-                                    <i class="bi bi-eye action-icon" title="Visualizar"></i>
-                                    <i class="bi bi-pencil action-icon" title="Editar"></i>
-                                    <i class="bi bi-trash action-icon delete" title="Excluir"></i>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-wrapper">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Cargo</th>
+                                <th>WhatsApp</th>
+                                <th>E-mail</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>João Silva</td>
+                                <td>Gerente</td>
+                                <td>(11) 99999-9999</td>
+                                <td>joao@email.com</td>
+                                <td>
+                                    <div class="action-icons">
+                                        <i class="bi bi-eye action-icon" title="Visualizar"></i>
+                                        <i class="bi bi-pencil action-icon" title="Editar"></i>
+                                        <i class="bi bi-trash action-icon delete" title="Excluir"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     </div>
 </div>
 
-<!-- Modal -->
 <div id="modalOverlay" class="modal-overlay" onclick="if(event.target === this) this.classList.remove('show');">
     <div class="modal-content">
         <div class="modal-header">
@@ -511,26 +397,30 @@ html, body {
                 <label class="form-label">Nome</label>
                 <input type="text" id="employee-name" class="form-input" placeholder="Digite o nome completo">
             </div>
-            
+
             <div class="form-group">
                 <label class="form-label">CPF</label>
-                <input type="text" id="employee-cpf"  class="form-input" placeholder="000.000.000-00">
+                <input type="text" id="employee-cpf" class="form-input" placeholder="000.000.000-00">
             </div>
-            
+
             <div class="form-group">
                 <label class="form-label">Cargo</label>
                 <input type="text" id="employee-role" class="form-input" placeholder="Digite o cargo">
             </div>
-            
+
             <div class="form-group">
-                <label class="form-label">
-                    Horas Atribuídas
-                    <span class="help-icon">
-                        <i class="bi bi-question-circle"></i>
-                        <span class="tooltip-text">Carga horária de trabalho mensal</span>
-                    </span>
-                </label>
-                <input type="number" id="employee-assinged-hours"  class="form-input" placeholder="Ex: 160">
+                <label class="form-label">WhatsApp</label>
+                <input type="text" id="employee-whatsapp" class="form-input" placeholder="(00) 00000-0000">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">E-mail</label>
+                <input type="email" id="employee-email" class="form-input" placeholder="exemplo@email.com">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Horas Atribuídas</label>
+                <input type="number" id="employee-assigned-hours" class="form-input" placeholder="Ex: 160">
             </div>
             
             <div class="modal-actions">
@@ -543,55 +433,51 @@ html, body {
             </div>
         </form>
     </div>
+</div>
 
-<!-- Jquery Lib -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
-
-<!-- jQuery Mask Plugin -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
-  $(function () {
+$(function () {
     $('#employee-cpf').mask('000.000.000-00');
-  });
+    $('#employee-whatsapp').mask('(00) 00000-0000');
+});
 </script>
 
 <script>
-    const form = document.getElementById('form-store-employee');
-    
-    form.addEventListener('submit', async function(event) {
-        event.preventDefault(); 
+const form = document.getElementById('form-store-employee');
 
-        const employeeName = document.querySelector('#employee-name').value;
-        const employeeCpf = document.querySelector('#employee-cpf').value;
-        const employeeRole = document.querySelector('#employee-role').value;
-        const employeeAssigned_hours= document.querySelector('#employee-assinged-hours').value;
+form.addEventListener('submit', async function(event) {
+    event.preventDefault(); 
 
-        const storeEmployeeURL = '/company/dashboard/employee';  
+    const employeeName = document.querySelector('#employee-name').value;
+    const employeeCpf = document.querySelector('#employee-cpf').value;
+    const employeeRole = document.querySelector('#employee-role').value;
+    const employeeAssignedHours = document.querySelector('#employee-assigned-hours').value;
+    const employeeWhatsapp = document.querySelector('#employee-whatsapp').value;
+    const employeeEmail = document.querySelector('#employee-email').value;
 
-        const response = await fetch(storeEmployeeURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                employeeName: employeeName,
-                employeeCpf: employeeCpf,
-                employeeRole: employeeRole,
-                employeeAssigned_hours: employeeAssigned_hours
-            })
-        });
+    const storeEmployeeURL = '/company/dashboard/employee';  
 
-        console.log(response);
-
-        // if (response.status === 200) {
-        //   location.href = '/company/dashboard';
-        // }
+    const response = await fetch(storeEmployeeURL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            employeeName,
+            employeeCpf,
+            employeeRole,
+            employeeAssignedHours,
+            employeeWhatsapp,
+            employeeEmail
+        })
     });
+
+    console.log(response);
+});
 </script>
-</div>
 </body>
 </html>

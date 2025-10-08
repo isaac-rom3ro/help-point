@@ -6,18 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Company extends Model
+class Employee extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'company'; 
+    protected $table = 'employee'; 
 
     public $incrementing = false;
     public $keyType = 'string';
 
     protected $fillable = [
         'name',
-        'cnpj',
-        'password'
+        'cpf',
+        'email',
+        'whatsapp',
+        'password',
+        'role',
+        'assined_hours',
+        'company_id'
     ];
 }

@@ -122,6 +122,10 @@
             })
         });
 
+        if (response.status === 201) {
+          location.href = '/company/login';
+        }
+
         console.log(response);
   });
 </script>
