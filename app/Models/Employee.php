@@ -22,7 +22,7 @@ class Employee extends Model
         'whatsapp',
         'password',
         'role',
-        'assined_hours',
+        'assigned_hours',
         'company_id'
     ];
 }

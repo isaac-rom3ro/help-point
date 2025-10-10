@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('whatsapp')->nullable(true)->unique();
             $table->string('password')->nullable(false);
             $table->string('role')->nullable(false);
-            $table->integer('assigned_hours')->nullable(false)->default(220);
-            $table->foreignId('company_id');
+            $table->integer('assigned_hours')->nullable(false)->default(0);
+            $table->uuid('company_id');
+            $table->foreign('company_id')->references('id')->on('company')->onDelete('cascade');
             $table->timestamps();
         });
     }
