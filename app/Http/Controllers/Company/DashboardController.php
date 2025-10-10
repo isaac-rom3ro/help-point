@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DashboardController extends Controller
 {
@@ -12,7 +13,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('company.dashboard');
+        $employees = $this->showAllEmployees();
+        return view('company.dashboard')->with('employees', $employees);
     }
 
     /**
@@ -37,6 +39,11 @@ class DashboardController extends Controller
     public function show(string $id)
     {
         //
+    }
+
+    public function showAllEmployees()
+    {
+        return Employee::select('*')->where('company_id', '=', session('uuid'))->get();
     }
 
     /**

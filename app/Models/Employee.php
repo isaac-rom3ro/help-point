@@ -25,4 +25,16 @@ class Employee extends Model
         'assigned_hours',
         'company_id'
     ];
+
+    public function getFormattedWhatsappAttribute()
+    {
+        $number = $this->whatsapp;
+
+        if (!$number) return null; 
+
+        return '( ' . substr($number, 0, 2) . ' ) ' 
+             . substr($number, 2, 1) . ' ' 
+             . substr($number, 3, 4) . '-' 
+             . substr($number, 7);
+    }
 }

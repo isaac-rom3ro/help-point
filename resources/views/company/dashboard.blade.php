@@ -352,30 +352,34 @@ html, body {
                 
                 <div class="table-wrapper">
                     <table class="custom-table">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Cargo</th>
-                                <th>WhatsApp</th>
-                                <th>E-mail</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>João Silva</td>
-                                <td>Gerente</td>
-                                <td>(11) 99999-9999</td>
-                                <td>joao@email.com</td>
-                                <td>
-                                    <div class="action-icons">
-                                        <i class="bi bi-eye action-icon" title="Visualizar"></i>
-                                        <i class="bi bi-pencil action-icon" title="Editar"></i>
-                                        <i class="bi bi-trash action-icon delete" title="Excluir"></i>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                        @if (! empty($employees))
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Cargo</th>
+                                    <th>WhatsApp</th>
+                                    <th>E-mail</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($employees as $employee)
+                                    <tr id="{{ $employee->id }}">
+                                        <td>{{ $employee->name }}</td>
+                                        <td>{{ $employee->role }}</td>
+                                        <td>{{ $employee->formatted_whatsapp }}</td>
+                                        <td>{{ $employee->email }}</td>
+                                        <td>
+                                            <div class="action-icons">
+                                                <i class="bi bi-eye action-icon" title="Visualizar"></i>
+                                                <i class="bi bi-pencil action-icon" title="Editar"></i>
+                                                <i class="bi bi-trash action-icon delete" title="Excluir"></i>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        @endif
                     </table>
                 </div>
             </div>
