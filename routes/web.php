@@ -1,14 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Mail\WelcomeEmail;
 
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Company\LoginController;
+use App\Http\Controllers\Company\EmployeeController;
 use App\Http\Controllers\Company\RegisterController;
 use App\Http\Controllers\Company\DashboardController;
-use App\Http\Controllers\Company\EmployeeController;
 
 Route::get('/', function () {
     return view('index');
+});
+
+Route::get('/email', function () {
+    Mail::to('is4ac.romero@outlook.com')->send(new WelcomeEmail());
 });
 
 // Naming -> resource.action.method

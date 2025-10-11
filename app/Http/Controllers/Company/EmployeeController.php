@@ -6,6 +6,7 @@ use App\Models\Employee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Company\EmailService;
 use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
@@ -38,7 +39,7 @@ class EmployeeController extends Controller
         $employeeAssignedHours = intval(request()->input('employeeAssignedHours'));
         $companyId = session('uuid');
 
-        Employee::create([
+        $employee = Employee::firstOrCreate([
             'name' => $employeeName,
             'cpf' => $employeeCpf,
             'email' => $employeeEmail,
@@ -48,6 +49,10 @@ class EmployeeController extends Controller
             'assigned_hours' => $employeeAssignedHours,
             'company_id' => $companyId
         ]); 
+
+        if ($employee->wasRecentlyCreated) {
+            EmailService::sendCredentialsToEmployee($employeeEmail);
+        }
         
         return response()->noContent(201);
     }
