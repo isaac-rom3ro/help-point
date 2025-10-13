@@ -59,7 +59,6 @@
     </nav>
 
     <div class="content">
-        <a class="navbar-brand text-white" href="#"><img src="{{ asset('images/logo-1.png') }}" alt="" width="256px" height="256px"></a>
     </div>
   </div>
 </body>

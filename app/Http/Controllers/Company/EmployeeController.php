@@ -6,6 +6,7 @@ use App\Models\Employee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Services\Company\EmailService;
 use Illuminate\Support\Facades\Validator;
 
@@ -44,16 +45,23 @@ class EmployeeController extends Controller
             'cpf' => $employeeCpf,
             'email' => $employeeEmail,
             'whatsapp' => $employeeWhatsapp,
-            'password' => $employeePassword,
+            'password' => Hash::make($employeePassword),
             'role' => $employeeRole,
             'assigned_hours' => $employeeAssignedHours,
             'company_id' => $companyId
         ]); 
 
-        if ($employee->wasRecentlyCreated) {
-            EmailService::sendCredentialsToEmployee($employeeEmail);
+        if ($employee->wasRecentlyCreated == false) {
+            return response()->noContent(500);
         }
         
+        EmailService::sendCredentialsToEmployee(
+            employeeEmail: $employeeEmail,
+            employeeName: $employeeName,
+            employeeCpf: $request->input('employeeCpf'),
+            employeePassword: $employeePassword
+        );
+
         return response()->noContent(201);
     }
 
