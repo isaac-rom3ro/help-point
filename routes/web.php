@@ -1,42 +1,47 @@
 <?php
 
-use App\Mail\WelcomeEmail;
-
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Company\LoginController;
-use App\Http\Controllers\Company\EmployeeController;
-use App\Http\Controllers\Company\RegisterController;
-use App\Http\Controllers\Company\DashboardController;
-use App\Services\Company\EmailService;
+
+// Company
+use App\Services\Company\EmailService as CompanyEmailService;
+use App\Http\Controllers\Company\LoginController as CompanyLoginController;
+use App\Http\Controllers\Company\EmployeeController as CompanyEmployeeController;
+use App\Http\Controllers\Company\RegisterController as CompanyRegisterController;
+use App\Http\Controllers\Company\DashboardController as CompanyDashboardController;
+
+// Employee
+use App\Http\Controllers\Employee\LoginController as EmployeeLoginController;
 
 Route::get('/', function () {
     return view('index');
-});
-
-Route::get('/email', function () {
-    Mail::to('is4ac.romero@outlook.com')->send(new WelcomeEmail());
 });
 
 // Naming -> resource.action.method
 Route::prefix('company')->name('company.')->group(function () {
 
     Route::prefix('register')->name('register.')->group(function () {
-        Route::get('/', [RegisterController::class, 'create'])->name('create');
-        Route::post('/', [RegisterController::class, 'store'])->name('store');
+        Route::get('/', [CompanyRegisterController::class, 'create'])->name('create');
+        Route::post('/', [CompanyRegisterController::class, 'store'])->name('store');
     });
 
     Route::prefix('login')->name('login.')->group(function() {
-        Route::get('/', [LoginController::class, 'showLoginForm'])->name('show');
-        Route::post('/', [LoginController::class, 'login'])->name('login');
+        Route::get('/', [CompanyLoginController::class, 'showLoginForm'])->name('show');
+        Route::post('/', [CompanyLoginController::class, 'login'])->name('login');
     });
 
     Route::prefix('dashboard')->name('dashboard.')->group(function() {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [CompanyDashboardController::class, 'index'])->name('dashboard');
 
         Route::prefix('employee')->name('employee.')->group(function () {
-            Route::post('/', [EmployeeController::class, 'store'])->name('store');
-            Route::post('/email', [EmailService::class, 'sendCredentialstoEmployee']);
+            Route::post('/', [CompanyEmployeeController::class, 'store'])->name('store');
+            Route::post('/email', [CompanyEmailService::class, 'sendCredentialstoEmployee']);
         });
     });
 }); 
+
+Route::prefix('employee')->name('employee.')->group(function () {
+    Route::prefix('login')->name('login.')->group(function () {
+        Route::get('/', [EmployeeLoginController::class, 'create']);
+        Route::post('/', [EmployeeLoginController::class, '']);
+    });
+});

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registrar Empresa</title>
+  <title>Entrar</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
@@ -71,21 +71,6 @@
     .btn-primary:hover {
       background-color: #004494;
     }
-
-    .footer-text {
-      text-align: center;
-      padding: 1rem;
-      color: #333;
-    }
-
-    .footer-text a {
-      color: #0056b3;
-      text-decoration: none;
-    }
-
-    .footer-text a:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
@@ -95,22 +80,15 @@
       <a class="navbar-brand text-white" href="#">Brand</a>
     </nav>
 
-    <!-- Registration Form -->
+    <!-- Login Form -->
     <div class="content">
       <form id="form-container" class="form-container">
-        <h3 class="text-center mb-4">Registre sua Empresa</h3>
-        <input type="text" id="company-name" class="form-control" placeholder="Nome da Empresa">
-        <input type="text" id="company-cnpj" class="form-control" placeholder="CNPJ">
-        <input type="password" id="company-password" class="form-control" placeholder="Senha">
-        <button type="submit" class="btn btn-primary mt-2">Registrar</button>
+        <h3 class="text-center mb-4">Bem Vindo!</h3>
+        <input type="text" id="employee-cpf" class="form-control" placeholder="CPF">
+        <input type="password" id="employee-password" class="form-control" placeholder="Senha">
+        <button type="submit" class="btn btn-primary mt-2">Entrar</button>
       </form>
     </div>
-
-    <!-- Footer Text -->
-    <div class="footer-text">
-      Já tem uma conta? <a href="/company/login">Entre aqui</a> para utilizar os serviços disponíveis para sua empresa.
-    </div>
-  </div>
 
   <!-- jQuery Lib -->
   <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -120,40 +98,36 @@
 
   <script>
     $(function() {
-      $('#company-cnpj').mask('00.000.000/0000-00');
+      $('#employee-cpf').mask('00.000.000-00');
     });
   </script>
 
   <script>
     const form = document.getElementById('form-container');
-
     form.addEventListener('submit', async function(event) {
       event.preventDefault();
+      const employeeCpf = document.getElementById('employee-cpf').value;
+      const employeePassword = document.getElementById('employee-password').value;
+      const loginEmployeeURL = '/employee/login';
 
-      const companyName = document.getElementById('company-name').value;
-      const companyCNPJ = document.getElementById('company-cnpj').value;
-      const companyPassword = document.getElementById('company-password').value;
+      console.log(employeeCpf, employeePassword, loginEmployeeURL);
 
-      const registerCompanyURL = '/company/register';
-
-      const response = await fetch(registerCompanyURL, {
+      const response = await fetch(loginEmployeeURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         body: JSON.stringify({
-          companyName: companyName,
-          companyCNPJ: companyCNPJ,
-          companyPassword: companyPassword
+          employeeCpf: employeeCpf,
+          employeePassword: employeePassword
         })
       });
 
-      if (response.status === 201) {
-        location.href = '/company/login';
-      }
-
       console.log(response);
+      if (response.status === 200) {
+        location.href = '/employee/dashboard';
+      }
     });
   </script>
 </body>

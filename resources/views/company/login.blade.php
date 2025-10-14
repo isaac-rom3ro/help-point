@@ -11,47 +11,55 @@
       height: 100%;
       margin: 0;
     }
+
     .full-vh {
       height: 100vh;
-      background-color: #007bff;
+      background-color: #ffffffff;
       color: white;
       display: flex;
       flex-direction: column;
     }
+
     .navbar {
       display: flex;
-      justify-content: center; /* center brand */
+      justify-content: center;
       align-items: center;
       background-color: #0056b3;
       padding: 1rem 0;
     }
+
     .navbar-brand {
       font-size: 1.5rem;
       font-weight: bold;
     }
+
     .content {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
     .form-container {
-      background-color: rgba(255, 255, 255, 0.15); /* slightly darker */
+      background-color: rgba(38, 114, 255, 1);
       padding: 2.5rem;
       border-radius: 1rem;
       width: 320px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* soft shadow */
-      backdrop-filter: blur(5px); /* subtle blur */
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(5px);
     }
+
     .form-control {
       margin-bottom: 1rem;
       border-radius: 0.5rem;
       border: none;
     }
+
     .form-control:focus {
       box-shadow: none;
-      outline: 2px solid #ffffff80; /* subtle focus effect */
+      outline: 2px solid #ffffff80;
     }
+
     .btn-primary {
       width: 100%;
       background-color: #0056b3;
@@ -59,8 +67,24 @@
       border-radius: 0.5rem;
       padding: 0.5rem;
     }
+
     .btn-primary:hover {
       background-color: #004494;
+    }
+
+    .footer-text {
+      text-align: center;
+      padding: 1rem;
+      color: #333;
+    }
+
+    .footer-text a {
+      color: #0056b3;
+      text-decoration: none;
+    }
+
+    .footer-text a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -80,52 +104,50 @@
         <button type="submit" class="btn btn-primary mt-2">Entrar</button>
       </form>
     </div>
+
+    <!-- Footer Text -->
+    <div class="footer-text">
+      Não tem uma conta? <a href="/company/register">Cadastre aqui</a> para aproveitar os benefícios de fazer parte da Help Point!
+    </div>
   </div>
 
-<!-- Jquery Lib -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
+  <!-- jQuery Lib -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
-<!-- jQuery Mask Plugin -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  <!-- jQuery Mask Plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
-<script>
-  $(function () {
-    $('#company-cnpj').mask('00.000.000/0000-00');
-  });
-</script>
+  <script>
+    $(function() {
+      $('#company-cnpj').mask('00.000.000/0000-00');
+    });
+  </script>
 
-<script>
+  <script>
     const form = document.getElementById('form-container');
-    
     form.addEventListener('submit', async function(event) {
-        event.preventDefault(); 
+      event.preventDefault();
+      const companyCNPJ = document.getElementById('company-cnpj').value;
+      const companyPassword = document.getElementById('company-password').value;
+      const loginCompanyURL = '/company/login';
 
-        const companyCNPJ = document.getElementById('company-cnpj').value;
-        const companyPassword = document.getElementById('company-password').value;
+      const response = await fetch(loginCompanyURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+          companyCNPJ: companyCNPJ,
+          companyPassword: companyPassword
+        })
+      });
 
-        const loginCompanyURL = '/company/login';  
-
-        const response = await fetch(loginCompanyURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                companyCNPJ: companyCNPJ,
-                companyPassword: companyPassword
-            })
-        });
-
-        console.log(response);
-
-        if (response.status === 200) {
-          location.href = '/company/dashboard';
-        }
-  });
-</script>
+      console.log(response);
+      if (response.status === 200) {
+        location.href = '/company/dashboard';
+      }
+    });
+  </script>
 </body>
 </html>
-

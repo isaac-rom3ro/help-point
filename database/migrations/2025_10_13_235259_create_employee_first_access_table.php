@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee', function (Blueprint $table) {
+        Schema::create('employee_first_access', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name')->nullable(false);
-            $table->string('cpf')->nullable(false)->unique();
-            $table->string('email')->nullable(true)->unique();
-            $table->string('whatsapp')->nullable(true)->unique();
-            $table->string('password')->nullable(false);
-            $table->string('role')->nullable(false);
-            $table->integer('assigned_hours')->nullable(false)->default(0);
+            $table->enum('status', ['PENDING, DONE'])->nullable(false);
+
             $table->uuid('company_id');
+            $table->uuid('employee_id');
             $table->foreign('company_id')->references('id')->on('company')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employee')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('employee_first_access');
     }
 };

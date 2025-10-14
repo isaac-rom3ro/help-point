@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Company;
 use App\Models\Employee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Company\EmailService;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Mailer\Exception\TransportException;
 
 class EmployeeController extends Controller
 {
@@ -40,6 +42,8 @@ class EmployeeController extends Controller
         $employeeAssignedHours = intval(request()->input('employeeAssignedHours'));
         $companyId = session('uuid');
 
+        DB::beginTransaction();
+
         $employee = Employee::firstOrCreate([
             'name' => $employeeName,
             'cpf' => $employeeCpf,
@@ -52,16 +56,23 @@ class EmployeeController extends Controller
         ]); 
 
         if ($employee->wasRecentlyCreated == false) {
+            DB::rollBack();
             return response()->noContent(500);
         }
         
-        EmailService::sendCredentialsToEmployee(
-            employeeEmail: $employeeEmail,
-            employeeName: $employeeName,
-            employeeCpf: $request->input('employeeCpf'),
-            employeePassword: $employeePassword
-        );
+        try {
+            EmailService::sendCredentialsToEmployee(
+                employeeEmail: $employeeEmail,
+                employeeName: $employeeName,
+                employeeCpf: $request->input('employeeCpf'),
+                employeePassword: $employeePassword
+            );
+        } catch(TransportException $e) {
+            DB::rollBack();
+            return response()->noContent(500);
+        }
 
+        DB::commit();
         return response()->noContent(201);
     }
 
