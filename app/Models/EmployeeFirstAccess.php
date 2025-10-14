@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EmployeeFirstAccess extends Model
 {
-    //
+    use HasFactory, HasUuids;
 
     protected $table = 'employee_first_access';
 

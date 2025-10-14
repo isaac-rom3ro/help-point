@@ -45,17 +45,24 @@ class LoginController extends Controller
 
         $employeeId = Employee::where('cpf', '=', $employeeCpf)->value('id');
 
-        // TO-DO
+        // Needs to change the password
         if (
             EmployeeFirstAccess::where('employee_id', '=', $employeeId)->where('status', '=', 'PENDING')->exists() === true
         ) {
-
+            return response()->noContent(202);
         }
 
-        // $id = Company::where('cnpj', '=', $companyCNPJ)->value('id');
+        $id = Employee::where('cpf', '=', $employeeCpf)->value('id');
 
-        // $request->session()->put('uuid', $id);
+        $request->session()->put('uuid', $id);
 
         return response()->noContent(200);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $requestTest = $request->all();
+
+        return response()->noContent(201);
     }
 }

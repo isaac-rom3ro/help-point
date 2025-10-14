@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\EmployeeFirstAccess;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Company\EmailService;
 use Illuminate\Support\Facades\Validator;
@@ -59,7 +60,12 @@ class EmployeeController extends Controller
             DB::rollBack();
             return response()->noContent(500);
         }
-        
+    
+        EmployeeFirstAccess::create([
+            'company_id' => $companyId,
+            'employee_id' => $employee->id
+        ]);
+
         try {
             EmailService::sendCredentialsToEmployee(
                 employeeEmail: $employeeEmail,

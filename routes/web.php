@@ -34,7 +34,7 @@ Route::prefix('company')->name('company.')->group(function () {
 
         Route::prefix('employee')->name('employee.')->group(function () {
             Route::post('/', [CompanyEmployeeController::class, 'store'])->name('store');
-            Route::post('/email', [CompanyEmailService::class, 'sendCredentialstoEmployee']);
+            Route::post('/email', [CompanyEmailService::class, 'sendCredentialstoEmployee'])->name('send-credential-email');
         });
     });
 }); 
@@ -43,5 +43,7 @@ Route::prefix('employee')->name('employee.')->group(function () {
     Route::prefix('login')->name('login.')->group(function () {
         Route::get('/', [EmployeeLoginController::class, 'create']);
         Route::post('/', [EmployeeLoginController::class, '']);
+
+        Route::post('/password', [EmployeeLoginController::class, 'updatePassword'])->name('password');
     });
 });
