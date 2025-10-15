@@ -105,10 +105,33 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     padding: 2rem;
     overflow-y: auto;
+    gap: 2rem;
 }
 
+/* Clock */
+#clock {
+    font-size: 5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.1em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes blink {
+    0%, 49% {
+        opacity: 1;
+    }
+    50%, 100% {
+        opacity: 0;
+    }
+}
+
+/* Centered button */
 .centered-button {
     background-color: #007bff;
     color: white;
@@ -155,6 +178,7 @@ html, body {
         </header>
 
         <main class="content-area">
+            <p id="clock"></p>
             <button class="centered-button" onclick="alert('Button clicked!')">
                 <i class="bi bi-plus-circle"></i>
                 Clique Aqui
@@ -164,5 +188,19 @@ html, body {
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+<script>
+    function getTime()
+    {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const timeString = `${hours}<span style="animation: blink 2s infinite;">:</span>${minutes}`;
+        document.getElementById('clock').innerHTML = timeString;
+    }
+
+    getTime();
+    setInterval(getTime, 1000);
+</script>
 </body>
 </html>
