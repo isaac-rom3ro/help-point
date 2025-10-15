@@ -11,6 +11,7 @@ use App\Http\Controllers\Company\DashboardController as CompanyDashboardControll
 
 // Employee
 use App\Http\Controllers\Employee\LoginController as EmployeeLoginController;
+use App\Http\Controllers\Employee\DashboardController as EmployeeDashboardController;
 
 Route::get('/', function () {
     return view('index');
@@ -45,5 +46,9 @@ Route::prefix('employee')->name('employee.')->group(function () {
         Route::post('/', [EmployeeLoginController::class, 'login'])->name('login');
 
         Route::post('/password', [EmployeeLoginController::class, 'updatePassword'])->name('password');
+    });
+
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', [EmployeeDashboardController::class, 'index'])->name('index');
     });
 });
