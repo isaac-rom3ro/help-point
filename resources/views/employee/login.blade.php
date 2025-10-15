@@ -111,7 +111,7 @@
         </div>
         <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-dark">Alterar</button>
+          <button type="button" id="btn-update-password" class="btn btn-dark">Alterar</button>
         </div>
       </div>
     </div>
@@ -130,8 +130,8 @@
 
   <script>
     $(function () {
-      $('#employee-cpf').mask('00.000.000-00');
-      $('#employee-cpf-update-password').mask('00.000.000-00');
+      $('#employee-cpf').mask('000.000.000-00');
+      $('#employee-cpf-update-password').mask('000.000.000-00');
     });
   </script>
 
@@ -151,14 +151,14 @@
       changePasswordModal.hide();
     }
 
-    // Update Form
-    const formPasswordUpdate = document.getElementById('change-password-form');
-    formPasswordUpdate.addEventListener('submit', async function (event) {
-      const employeeCpf = document.getElementById('employee-cpf-password-update');
-      const currentPassword = document.getElementById('current-password');
-      const newPassword = document.getElementById('new-password');
+    // Update Password
+    const btnUpdatePassword = document.querySelector('#btn-update-password');
+    btnUpdatePassword.addEventListener('click', async function (event) {
+      const employeeCpf = document.getElementById('employee-cpf-update-password').value;
+      const currentPassword = document.getElementById('current-password').value;
+      const newPassword = document.getElementById('new-password').value;
 
-      const updateLoginURL = 'employee/login/password';
+      const updateLoginURL = '/employee/login/password';
 
       const response = await fetch(updateLoginURL, {
         method: 'POST',
@@ -173,6 +173,10 @@
         })        
       });
 
+      if (response.status === 201) {
+        console.log('ok');
+      }
+
     });
 
     // Login form submission
@@ -183,8 +187,6 @@
       const employeeCpf = document.getElementById('employee-cpf').value;
       const employeePassword = document.getElementById('employee-password').value;
       const loginEmployeeURL = '/employee/login';
-
-      console.log(employeeCpf, employeePassword, loginEmployeeURL);
 
       const response = await fetch(loginEmployeeURL, {
         method: 'POST',
@@ -202,7 +204,6 @@
       if (response.status === 200) {
         location.href = '/employee/dashboard';
       } else if (response.status === 202) {
-
         showChangePasswordModal();
       } else if (response.status === 201) {
         location.reload();        

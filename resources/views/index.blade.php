@@ -113,7 +113,7 @@
         <!-- <a href="/company/register">Registrar</a> -->
         <!-- <a href="/company/login">Entrar</a> -->
         <a href="/company/login">Sou Empresa</a>
-        <a href="">Sou Funcionario</a>
+        <a href="/employee/login">Sou Funcionario</a>
         <a href="#">Sobre Nós</a>
         <a href="#">Contato</a>
       </div>

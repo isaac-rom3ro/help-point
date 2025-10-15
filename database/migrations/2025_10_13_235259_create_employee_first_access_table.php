@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('employee_first_access', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->enum('status', ['PENDING, DONE'])->nullable(false);
+            $table->enum('status', ['PENDING', 'DONE'])->nullable(false)->default('PENDING');
 
             $table->uuid('company_id');
             $table->uuid('employee_id');

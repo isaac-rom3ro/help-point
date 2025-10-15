@@ -23,7 +23,7 @@ class LoginController extends Controller
     {
         $validator = Validator::make($request->all(), [
             "employeeCpf" => 
-                "required|string|size:18|regex:/^\d{3}.\d{3}.\d{3}-\d{2}$/", 
+                "required|string|size:14|regex:/^\d{3}.\d{3}.\d{3}-\d{2}$/", 
             "employeePassword" => 
                 "required|string" 
         ]);
@@ -61,7 +61,35 @@ class LoginController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $requestTest = $request->all();
+        $validator = Validator::make($request->all(), [
+            "employeeCpf" => 
+                "required|string|size:14|regex:/^\d{3}.\d{3}.\d{3}-\d{2}$/", 
+            "currentPassword" => 
+                "required|string", 
+            "newPassword" => 
+                "required|string" 
+        ]);
+
+        if ($validator->fails()) {
+            return response()->noContent(400);
+        }
+
+        $employeeCpf = preg_replace('/\D/', '',$request->input('employeeCpf'));
+        $currentPassword = $request->input('currentPassword');
+        $newPassword = $request->input('newPassword');
+
+
+        $passwordFromBD = Employee::where('cpf', '=', $employeeCpf)->value('password');
+
+        $isPasswordEqual = Hash::check($currentPassword, $passwordFromBD);
+
+        if ($isPasswordEqual === false) {
+            return response()->noContent(403);
+        } 
+
+        Employee::where('cpf', '=', $employeeCpf)->update([
+            'password' => Hash::make($newPassword)
+        ]);
 
         return response()->noContent(201);
     }

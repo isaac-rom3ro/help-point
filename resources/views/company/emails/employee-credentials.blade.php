@@ -138,7 +138,7 @@
 
                 <div class="credential-item">
                     <div class="credential-label">Senha</div>
-                    <div class="credential-value">{{ $employeePassword }}!</div>
+                    <div class="credential-value">{{ $employeePassword }}</div>
                 </div>
             </div>
 

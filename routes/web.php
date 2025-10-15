@@ -41,8 +41,8 @@ Route::prefix('company')->name('company.')->group(function () {
 
 Route::prefix('employee')->name('employee.')->group(function () {
     Route::prefix('login')->name('login.')->group(function () {
-        Route::get('/', [EmployeeLoginController::class, 'create']);
-        Route::post('/', [EmployeeLoginController::class, '']);
+        Route::get('/', [EmployeeLoginController::class, 'create'])->name('create');
+        Route::post('/', [EmployeeLoginController::class, 'login'])->name('login');
 
         Route::post('/password', [EmployeeLoginController::class, 'updatePassword'])->name('password');
     });
