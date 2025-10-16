@@ -123,11 +123,14 @@ html, body {
 }
 
 @keyframes blink {
-    0%, 49% {
+    0%, 45% {
         opacity: 1;
     }
-    50%, 100% {
+    50%, 95% {
         opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }
 
@@ -159,6 +162,138 @@ html, body {
 .centered-button i {
     font-size: 1.5rem;
 }
+
+/* Modal Overlay */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.modal-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    color: #6c757d;
+    cursor: pointer;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background-color: #f0f0f0;
+    color: #495057;
+}
+
+.modal-body {
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.modal-footer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.btn-modal {
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+.btn-submit {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
 </style>
 </head>
 <body>
@@ -179,7 +314,7 @@ html, body {
 
         <main class="content-area">
             <p id="clock"></p>
-            <button class="centered-button" onclick="alert('Button clicked!')">
+            <button class="centered-button" id="open-modal-btn">
                 <i class="bi bi-plus-circle"></i>
                 Clique Aqui
             </button>
@@ -187,15 +322,55 @@ html, body {
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<!-- Modal -->
+  <div class="modal fade" id="modal-overlay" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-primary">
+        <div class="modal-header border-0">
+          <h5 class="modal-title text-white" id="changePasswordLabel">Alterar Senha</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="change-password-form">
+            <input type="text" class="form-control mb-3" id="employee-cpf-update-password" placeholder="CPF">
+            <input type="password" class="form-control mb-3" id="current-password" placeholder="Senha Atual">
+            <input type="password" class="form-control mb-3" id="new-password" placeholder="Nova Senha">
+            <!-- <input type="password" class="form-control" id="confirm-password" placeholder="Confirmar Senha"> -->
+          </form>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btn-update-password" class="btn btn-dark">Alterar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"
+          integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+          crossorigin="anonymous"></script>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- jQuery Mask Plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
+    const modalOverlay = new bootstrap.Modal(document.getElementById('modal-overlay'));
+
+    function show()
+    {
+        modalOverlay.show();
+    }
+
     function getTime()
     {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');
-        const timeString = `${hours}<span style="animation: blink 2s infinite;">:</span>${minutes}`;
+        const timeString = `${hours}<span style="animation: blink 3s infinite;">:</span>${minutes}`;
         document.getElementById('clock').innerHTML = timeString;
     }
 
