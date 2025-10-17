@@ -91,6 +91,12 @@ class LoginController extends Controller
             'password' => Hash::make($newPassword)
         ]);
 
+        $employeeId = Employee::where('cpf', '=', $employeeCpf)->value('id');
+
+        EmployeeFirstAccess::where('employee_id', '=', $employeeId)->update([
+            'status' => 'DONE'
+        ]);
+
         return response()->noContent(201);
     }
 }

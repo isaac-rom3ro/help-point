@@ -174,7 +174,7 @@
       });
 
       if (response.status === 201) {
-        console.log('ok');
+        location.href = "/employee/dashboard";
       }
 
     });
