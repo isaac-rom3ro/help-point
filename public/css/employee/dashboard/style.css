@@ -1,0 +1,245 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 80px;
+    background: linear-gradient(180deg, #0056b3 0%, #003d82 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.sidebar-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.sidebar-icon:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.sidebar-icon.active {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Main content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f6fa;
+    min-width: 0;
+}
+
+/* Top bar */
+.top-bar {
+    height: 70px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.brand-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.profile-icon {
+    width: 45px;
+    height: 45px;
+    background-color: #007bff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-icon:hover {
+    background-color: #0056b3;
+}
+
+/* Content area */
+.content-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+    overflow-y: auto;
+    gap: 2rem;
+}
+
+/* Clock */
+#clock {
+    font-size: 5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.1em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes blink {
+    0%, 45% {
+        opacity: 1;
+    }
+    50%, 95% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Centered button */
+.centered-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 1.5rem 3rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.centered-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 12px 30px rgba(0, 123, 255, 0.4);
+    transform: translateY(-3px);
+    color: white;
+}
+
+.centered-button i {
+    font-size: 1.5rem;
+}
+
+/* Modal Customization */
+#modal-overlay .modal-content {
+    background-color: #007bff;
+    border-radius: 0.75rem;
+    border: none;
+}
+
+#modal-overlay .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+}
+
+#modal-overlay .modal-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+#modal-overlay .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+#modal-overlay .btn-close:hover {
+    opacity: 1;
+}
+
+#modal-overlay .modal-body {
+    padding: 1.5rem;
+}
+
+#modal-overlay .modal-body label {
+    color: white;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+#modal-overlay .modal-body select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+}
+
+#modal-overlay .modal-body select option {
+    background-color: #0056b3;
+    color: white;
+}
+
+#modal-overlay .modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.btn-modal-cancel {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.65rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-modal-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-modal-submit {
+    background-color: white;
+    color: #007bff;
+    border: none;
+    padding: 0.65rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-modal-submit:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

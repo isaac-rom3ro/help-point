@@ -5,88 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Entrar</title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  <!-- BOOTSTRAP -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
 
-    .full-vh {
-      height: 100vh;
-      background-color: #ffffffff;
-      color: white;
-      display: flex;
-      flex-direction: column;
-    }
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ asset('css/company/login/style.css') }}">
 
-    .navbar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #0056b3;
-      padding: 1rem 0;
-    }
-
-    .navbar-brand {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    .content {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .form-container {
-      background-color: rgba(38, 114, 255, 1);
-      padding: 2.5rem;
-      border-radius: 1rem;
-      width: 320px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(5px);
-    }
-
-    .form-control {
-      margin-bottom: 1rem;
-      border-radius: 0.5rem;
-      border: none;
-    }
-
-    .form-control:focus {
-      box-shadow: none;
-      outline: 2px solid #ffffff80;
-    }
-
-    .btn-primary {
-      width: 100%;
-      background-color: #0056b3;
-      border: none;
-      border-radius: 0.5rem;
-      padding: 0.5rem;
-    }
-
-    .btn-primary:hover {
-      background-color: #004494;
-    }
-
-    .footer-text {
-      text-align: center;
-      padding: 1rem;
-      color: #333;
-    }
-
-    .footer-text a {
-      color: #0056b3;
-      text-decoration: none;
-    }
-
-    .footer-text a:hover {
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
   <div class="full-vh">
