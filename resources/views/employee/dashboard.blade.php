@@ -163,136 +163,95 @@ html, body {
     font-size: 1.5rem;
 }
 
-/* Modal Overlay */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-}
-
-.modal-overlay.show {
-    display: flex;
-}
-
-.modal-content {
-    background-color: white;
+/* Modal Customization */
+#modal-overlay .modal-content {
+    background-color: #007bff;
     border-radius: 0.75rem;
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    position: relative;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #f0f0f0;
-}
-
-.modal-title {
-    font-size: 1.75rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin: 0;
-}
-
-.modal-close-btn {
-    background: none;
     border: none;
-    font-size: 1.75rem;
-    color: #6c757d;
-    cursor: pointer;
-    padding: 0;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.25rem;
-    transition: all 0.2s ease;
 }
 
-.modal-close-btn:hover {
-    background-color: #f0f0f0;
-    color: #495057;
+#modal-overlay .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
 }
 
-.modal-body {
-    margin-bottom: 2rem;
+#modal-overlay .modal-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
-.form-group {
-    margin-bottom: 1.25rem;
+#modal-overlay .btn-close {
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
 }
 
-.form-label {
-    display: block;
+#modal-overlay .btn-close:hover {
+    opacity: 1;
+}
+
+#modal-overlay .modal-body {
+    padding: 1.5rem;
+}
+
+#modal-overlay .modal-body label {
+    color: white;
     font-weight: 500;
-    color: #495057;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    display: block;
 }
 
-.form-input {
+#modal-overlay .modal-body select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #dee2e6;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 0.5rem;
-    font-size: 0.95rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-}
-
-.modal-footer {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-}
-
-.btn-modal {
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
     font-size: 1rem;
+}
+
+#modal-overlay .modal-body select option {
+    background-color: #0056b3;
+    color: white;
+}
+
+#modal-overlay .modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.btn-modal-cancel {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.65rem 1.5rem;
+    border-radius: 0.5rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.btn-cancel {
-    background-color: #6c757d;
-    color: white;
+.btn-modal-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
-.btn-cancel:hover {
-    background-color: #5a6268;
+.btn-modal-submit {
+    background-color: white;
+    color: #007bff;
+    border: none;
+    padding: 0.65rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.btn-submit {
-    background-color: #007bff;
-    color: white;
-}
-
-.btn-submit:hover {
-    background-color: #0056b3;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+.btn-modal-submit:hover {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>
 </head>
@@ -323,50 +282,95 @@ html, body {
 </div>
 
 <!-- Modal -->
-  <div class="modal fade" id="modal-overlay" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+<div class="modal fade" id="modal-overlay" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-primary">
-        <div class="modal-header border-0">
-          <h5 class="modal-title text-white" id="changePasswordLabel">Alterar Senha</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Novo Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="register-select">O que você deseja registrar?</label>
+                <select name="register-select" id="slt-log-type">
+                    <option value="time-in">Chegada</option>
+                    <option value="lunch-in">Pausa para Almoço</option>
+                    <option value="lunch-out">De Volta do Almoço</option>
+                    <option value="time-out">Encerrando o Expediente</option>
+                    <option value="other">Outro Tipo de Registro</option>
+                </select>
+                
+                <input id="ipt-other-purpose" hidden type="text" placeholder="Motivo...">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal-cancel" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="btn-register-new-log" class="btn-modal-submit">Registrar</button>
+            </div>
         </div>
-        <div class="modal-body">
-          <form id="change-password-form">
-            <input type="text" class="form-control mb-3" id="employee-cpf-update-password" placeholder="CPF">
-            <input type="password" class="form-control mb-3" id="current-password" placeholder="Senha Atual">
-            <input type="password" class="form-control mb-3" id="new-password" placeholder="Nova Senha">
-            <!-- <input type="password" class="form-control" id="confirm-password" placeholder="Confirmar Senha"> -->
-          </form>
-        </div>
-        <div class="modal-footer border-0">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" id="btn-update-password" class="btn btn-dark">Alterar</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.7.1.js"
-          integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-          crossorigin="anonymous"></script>
-
-  <!-- Bootstrap Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- jQuery Mask Plugin -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script>
-    const modalOverlay = new bootstrap.Modal(document.getElementById('modal-overlay'));
+    const purposeInput = document.getElementById('ipt-other-purpose');
+    const selectTimeOption = document.getElementById('slt-log-type');
 
-    function show()
+    if (purposeInput.hasAttribute('hidden') && selectTimeOption.value === 'other')
     {
-        modalOverlay.show();
+            purposeInput.removeAttribute('hidden');    
     }
 
-    function getTime()
-    {
+    const modalOverlay = new bootstrap.Modal(document.getElementById('modal-overlay'));
+
+    const registerNewLogModal = document.getElementById('open-modal-btn');
+    registerNewLogModal.addEventListener('click', function () {
+        modalOverlay.show();
+    });
+
+    const btnRegisterNewLog = document.getElementById("btn-register-new-log").addEventListener('click', async function () {
+        const logType = document.getElementById('slt-log-type').value;
+        const otherPurpose = purposeInput.hasAttribute('hidden') ? purposeInput.value : '';
+
+        const sendOnlyLogType = JSON.stringify({
+             logType: logType
+        });
+
+        const sendOtherType = JSON.stringify({
+             logType: logType,
+             otherPurpose: otherPurpose
+        });
+
+        const body = otherPurpose !== '' ? sendOtherType : sendOnlyLogType;
+
+        const timeRegisterURL = '/employee/dashboard/time-log';
+
+        const response = await fetch(timeRegisterURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: body
+        });
+
+        console.log(response.status);
+    });
+
+    selectTimeOption.addEventListener('change', function(event) {
+        const type = event.target.value;
+
+        if (type === 'other') {
+            purposeInput.removeAttribute('hidden');
+        } else {
+            purposeInput.value = '';
+            purposeInput.setAttribute('hidden', true);
+        }
+    });
+
+    function getTime() {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
         const minutes = now.getMinutes().toString().padStart(2, '0');

@@ -12,6 +12,7 @@ use App\Http\Controllers\Company\DashboardController as CompanyDashboardControll
 // Employee
 use App\Http\Controllers\Employee\LoginController as EmployeeLoginController;
 use App\Http\Controllers\Employee\DashboardController as EmployeeDashboardController;
+use App\Http\Controllers\Employee\TimeLogController;
 
 Route::get('/', function () {
     return view('index');
@@ -50,5 +51,9 @@ Route::prefix('employee')->name('employee.')->group(function () {
 
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [EmployeeDashboardController::class, 'index'])->name('index');
+
+        Route::prefix('time-log')->name('time-log.')->group(function (){
+            Route::post('/', [TimeLogController::class, 'storeNewLog'])->name('store');
+        });
     });
 });
