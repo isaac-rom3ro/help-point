@@ -14,10 +14,16 @@ return new class extends Migration
         Schema::create('time_log', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->time('time-in')->nullable(true);
-            $table->time('lunch-in')->nullable(true);
-            $table->time('lunch-out')->nullable(true);
-            $table->time('time-out')->nullable(true);
+            $table->uuid('company_id');
+            $table->foreign('company_id')->references('id')->on('company')->onDelete('cascade');
+            
+            $table->uuid('employee_id');
+            $table->foreign('employee_id')->references('id')->on('employee')->onDelete('cascade');
+
+            $table->string('time-in')->nullable(true);
+            $table->string('lunch-in')->nullable(true);
+            $table->string('lunch-out')->nullable(true);
+            $table->string('time-out')->nullable(true);
             $table->json('other')->nullable(true);
 
 
@@ -33,7 +39,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('time_log', function (Blueprint $table) {
-            //
+            Schema::dropIfExists('time_log');
         });
     }
 };

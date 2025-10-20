@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Employee;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\TimeLog;
+use App\Services\Employee\LogService;
 use Illuminate\Support\Facades\Validator;
 
 class TimeLogController extends Controller
@@ -21,6 +23,10 @@ class TimeLogController extends Controller
                         $fail("The $attribute must be in the format 'something-in' / 'something-out' or 'other'.");
                     }
                 }
+            ],
+            'otherPurpose' => [
+                'nullable',
+                'string'
             ]
         ]);
 
@@ -28,9 +34,30 @@ class TimeLogController extends Controller
         {
             $fails = $validator->failed();
         }
+
+        $type = $request->input('logType');
+        $time = $request->input('time');
+
+        $companyId = '';
+        $employeeId = '';
+
+        $row = LogService::filterLog(
+            companyId: $companyId,
+            employeeId: $employeeId,
+            type: $type, 
+            time: $time
+        );
+
+        TimeLog::create(
+            $row
+        );
         
         return response()->noContent(200);
     }
+
+
+
+
     /**
      * Display a listing of the resource.
      */

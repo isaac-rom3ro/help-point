@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('employee', function (Blueprint $table) {
             $table->uuid('id')->primary();
+
             $table->string('name')->nullable(false);
             $table->string('cpf')->nullable(false)->unique();
             $table->string('email')->nullable(true)->unique();
             $table->string('whatsapp')->nullable(true)->unique();
             $table->string('password')->nullable(false);
+            
             $table->string('role')->nullable(false);
             $table->integer('assigned_hours')->nullable(false)->default(0);
             

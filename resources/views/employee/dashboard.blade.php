@@ -321,6 +321,7 @@ html, body {
     if (purposeInput.hasAttribute('hidden') && selectTimeOption.value === 'other')
     {
             purposeInput.removeAttribute('hidden');    
+            purposeInput.value = '';
     }
 
     const modalOverlay = new bootstrap.Modal(document.getElementById('modal-overlay'));
@@ -330,17 +331,30 @@ html, body {
         modalOverlay.show();
     });
 
+    function convertJsDateToMysqlDatetime(jsDate) {
+        const timePart = jsDate.slice(12, 20); // "HH:MM:SS"
+
+        // Combine them with a space in between
+        return `${timePart}`;
+    }
+
+
     const btnRegisterNewLog = document.getElementById("btn-register-new-log").addEventListener('click', async function () {
         const logType = document.getElementById('slt-log-type').value;
-        const otherPurpose = purposeInput.hasAttribute('hidden') ? purposeInput.value : '';
+        const otherPurpose = purposeInput.hasAttribute('hidden') ? '' :  purposeInput.value;
+        const time = convertJsDateToMysqlDatetime(
+            new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })
+        );
 
         const sendOnlyLogType = JSON.stringify({
-             logType: logType
+            time: time,
+            logType: logType
         });
 
         const sendOtherType = JSON.stringify({
-             logType: logType,
-             otherPurpose: otherPurpose
+            time: time,
+            logType: logType,
+            otherPurpose: otherPurpose
         });
 
         const body = otherPurpose !== '' ? sendOtherType : sendOnlyLogType;
