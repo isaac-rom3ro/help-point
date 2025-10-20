@@ -41,38 +41,15 @@
 
   <!-- jQuery Mask Plugin -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+  
+  <script src="{{ asset('js/company/login/FormLogin.js') }}"></script>
 
   <script>
     $(function() {
-      $('#company-cnpj').mask('00.000.000/0000-00');
+      formLogin.setMask();
+      formLogin.whenSubmit();
     });
   </script>
-
-  <script>
-    const form = document.getElementById('form-container');
-    form.addEventListener('submit', async function(event) {
-      event.preventDefault();
-      const companyCNPJ = document.getElementById('company-cnpj').value;
-      const companyPassword = document.getElementById('company-password').value;
-      const loginCompanyURL = '/company/login';
-
-      const response = await fetch(loginCompanyURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-          companyCNPJ: companyCNPJ,
-          companyPassword: companyPassword
-        })
-      });
-
-      console.log(response);
-      if (response.status === 200) {
-        location.href = '/company/dashboard';
-      }
-    });
-  </script>
+  
 </body>
 </html>
