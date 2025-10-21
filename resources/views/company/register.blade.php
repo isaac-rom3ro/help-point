@@ -79,11 +79,9 @@
       }
 
       console.log(response);
-=======
       formRegister.setMask();
 
       formRegister.whenSubmit();
->>>>>>> Stashed changes
     });
   </script>
 </body>
