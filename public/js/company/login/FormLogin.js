@@ -1,6 +1,10 @@
 class FormLogin {
     element = document.querySelector('#form-container');
     url = '/company/login';
+<<<<<<< Updated upstream
+=======
+    dashboard = '/company/dashboard';
+>>>>>>> Stashed changes
     token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     setMask() {
@@ -29,7 +33,7 @@ class FormLogin {
             console.log(response);
 
             if (response.status === 200) {
-                location.href = '/company/dashboard';
+                location.href = this.dashboard;
             }
         });
     }

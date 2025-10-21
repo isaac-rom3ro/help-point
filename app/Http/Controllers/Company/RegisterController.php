@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Helpers\CNPJ;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\Company\RegisterService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,27 +25,19 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            "companyName" => 
-                "required|string", 
-            "companyCNPJ" => 
-                "required|string|size:18|regex:/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/", 
-            "companyPassword" => 
-                "required|string" 
-        ]);
-
-        if ($validator->fails()) {
+        if (RegisterService::inputsAreValid($request) === false)
+        {
             return response()->noContent(400);
         }
 
-        $companyName = $request->input('companyName');
-        $companyCNPJ = preg_replace('/\D/', '',$request->input('companyCNPJ'));
-        $companyPassword = Hash::make($request->input('companyPassword'));
+        $legalName = $request->input('legalName');
+        $cnpj = CNPJ::removeNonDigits($request->input('cnpj'));
+        $password = Hash::make($request->input('password'));
 
         Company::create([
-            'name' => $companyName, 
-            'cnpj' => $companyCNPJ, 
-            'password' => $companyPassword
+            'legal_name' => $legalName, 
+            'cnpj' => $cnpj, 
+            'password' => $password
         ]);
 
         return response()->noContent(201);

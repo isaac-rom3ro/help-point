@@ -21,12 +21,12 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'employeeName' => 'required',
-            'employeeCpf' => 'required|regex:/^\d{3}.\d{3}.\d{3}-\d{2}$/',
-            'employeeEmail' => 'required|email',
-            'employeeWhatsapp' => 'required',
-            'employeeRole' => 'required',
-            'employeeAssignedHours' => 'required|lt:221'
+            'name' => 'required',
+            'cpf' => 'required|regex:/^\d{3}.\d{3}.\d{3}-\d{2}$/',
+            'email' => 'required|email',
+            'whatsapp' => 'required',
+            'role' => 'required',
+            'assignedHours' => 'required|lt:221'
         ]);
 
         if ($validator->fails()) {
@@ -34,25 +34,25 @@ class EmployeeController extends Controller
             return response()->noContent(400);
         }
 
-        $employeeName = request()->input('employeeName');
-        $employeeCpf = preg_replace('/\D/', '', request()->input('employeeCpf'));
-        $employeeEmail = request()->input('employeeEmail');
-        $employeeWhatsapp = preg_replace('/\D/', '', request()->input('employeeWhatsapp'));
-        $employeePassword = substr(Str::uuid()->toString(), 0, 8);
-        $employeeRole = request()->input('employeeRole');
-        $employeeAssignedHours = intval(request()->input('employeeAssignedHours'));
+        $name = request()->input('name');
+        $cpf = preg_replace('/\D/', '', request()->input('cpf'));
+        $email = request()->input('email');
+        $whatsapp = preg_replace('/\D/', '', request()->input('whatsapp'));
+        $password = substr(Str::uuid()->toString(), 0, 8);
+        $role = request()->input('Role');
+        $assignedHours = intval(request()->input('AssignedHours'));
         $companyId = session('uuid');
 
         DB::beginTransaction();
 
         $employee = Employee::firstOrCreate([
-            'name' => $employeeName,
-            'cpf' => $employeeCpf,
-            'email' => $employeeEmail,
-            'whatsapp' => $employeeWhatsapp,
-            'password' => Hash::make($employeePassword),
-            'role' => $employeeRole,
-            'assigned_hours' => $employeeAssignedHours,
+            'name' => $name,
+            'cpf' => ,
+            'email' => $email,
+            'whatsapp' => $whatsapp,
+            'password' => Hash::make($password),
+            'role' => $role,
+            'assigned_hours' => $assignedHours,
             'company_id' => $companyId
         ]); 
 
@@ -68,10 +68,10 @@ class EmployeeController extends Controller
 
         try {
             EmailService::sendCredentialsToEmployee(
-                employeeEmail: $employeeEmail,
-                employeeName: $employeeName,
+                employeeEmail: $email,
+                employeeName: $name,
                 employeeCpf: $request->input('employeeCpf'),
-                employeePassword: $employeePassword
+                employeePassword: $password
             );
         } catch(TransportException $e) {
             DB::rollBack();

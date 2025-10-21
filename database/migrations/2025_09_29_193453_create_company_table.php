@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('company', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name')->nullable(false)->unique();
+            $table->string('legal_name')->nullable(false)->unique();
             $table->string('cnpj')->nullable(false)->unique();
             $table->string('password')->nullable(false);
             $table->timestamps();

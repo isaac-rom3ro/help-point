@@ -90,32 +90,32 @@
         <form id="form-store-employee">
             <div class="form-group">
                 <label class="form-label">Nome</label>
-                <input type="text" id="employee-name" class="form-input" placeholder="Digite o nome completo">
+                <input type="text" id="name" class="form-input" placeholder="Digite o nome completo">
             </div>
 
             <div class="form-group">
                 <label class="form-label">CPF</label>
-                <input type="text" id="employee-cpf" class="form-input" placeholder="000.000.000-00">
+                <input type="text" id="cpf" class="form-input" placeholder="000.000.000-00">
             </div>
 
             <div class="form-group">
                 <label class="form-label">Cargo</label>
-                <input type="text" id="employee-role" class="form-input" placeholder="Digite o cargo">
+                <input type="text" id="role" class="form-input" placeholder="Digite o cargo">
             </div>
 
             <div class="form-group">
                 <label class="form-label">WhatsApp</label>
-                <input type="text" id="employee-whatsapp" class="form-input" placeholder="(00) 00000-0000">
+                <input type="text" id="whatsapp" class="form-input" placeholder="(00) 00000-0000">
             </div>
 
             <div class="form-group">
                 <label class="form-label">E-mail</label>
-                <input type="email" id="employee-email" class="form-input" placeholder="exemplo@email.com">
+                <input type="email" id="email" class="form-input" placeholder="exemplo@email.com">
             </div>
 
             <div class="form-group">
                 <label class="form-label">Horas Atribuídas</label>
-                <input type="number" id="employee-assigned-hours" class="form-input" placeholder="Ex: 160">
+                <input type="number" id="assigned-hours" class="form-input" placeholder="Ex: 160">
             </div>
             
             <div class="modal-actions">
@@ -130,48 +130,17 @@
     </div>
 </div>
 
+<!-- JQUERY -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
+<!-- JS -->
+ <script src="{{ asset('js/company/dashboard/FormEmployee.js') }}"></script>
+
 <script>
 $(function () {
-    $('#employee-cpf').mask('000.000.000-00');
-    $('#employee-whatsapp').mask('(00) 00000-0000');
-});
-</script>
-
-<script>
-const form = document.getElementById('form-store-employee');
-
-form.addEventListener('submit', async function(event) {
-    event.preventDefault(); 
-
-    const employeeName = document.querySelector('#employee-name').value;
-    const employeeCpf = document.querySelector('#employee-cpf').value;
-    const employeeRole = document.querySelector('#employee-role').value;
-    const employeeAssignedHours = document.querySelector('#employee-assigned-hours').value;
-    const employeeWhatsapp = document.querySelector('#employee-whatsapp').value;
-    const employeeEmail = document.querySelector('#employee-email').value;
-
-    const storeEmployeeURL = '/company/dashboard/employee';  
-
-    const response = await fetch(storeEmployeeURL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-            employeeName,
-            employeeCpf,
-            employeeRole,
-            employeeAssignedHours,
-            employeeWhatsapp,
-            employeeEmail
-        })
-    });
-
-    console.log(response);
+    formEmployee.setMask();
+    formEmployee.store();
 });
 </script>
 </body>

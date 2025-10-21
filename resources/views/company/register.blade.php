@@ -23,9 +23,15 @@
     <div class="content">
       <form id="form-container" class="form-container">
         <h3 class="text-center mb-4">Registre sua Empresa</h3>
+<<<<<<< Updated upstream
         <input type="text" id="company-name" class="form-control" placeholder="Nome da Empresa">
         <input type="text" id="company-cnpj" class="form-control" placeholder="CNPJ">
         <input type="password" id="company-password" class="form-control" placeholder="Senha">
+=======
+        <input type="text" id="legal-name" class="form-control" placeholder="Nome da Empresa">
+        <input type="text" id="cnpj" class="form-control" placeholder="CNPJ">
+        <input type="password" id="password" class="form-control" placeholder="Senha">
+>>>>>>> Stashed changes
         <button type="submit" class="btn btn-primary mt-2">Registrar</button>
       </form>
     </div>
@@ -44,6 +50,7 @@
 
   <script>
     $(function() {
+<<<<<<< Updated upstream
       $('#company-cnpj').mask('00.000.000/0000-00');
     });
   </script>
@@ -78,6 +85,11 @@
       }
 
       console.log(response);
+=======
+      formRegister.setMask();
+
+      formRegister.whenSubmit();
+>>>>>>> Stashed changes
     });
   </script>
 </body>

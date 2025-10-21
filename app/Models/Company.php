@@ -16,7 +16,7 @@ class Company extends Model
     public $keyType = 'string';
 
     protected $fillable = [
-        'name',
+        'legal_name',
         'cnpj',
         'password'
     ];
