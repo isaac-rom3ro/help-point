@@ -8,15 +8,15 @@ class FormLogin {
     token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     setMask() {
-        $('#company-cnpj').mask('00.000.000/0000-00');
+        $('#cnpj').mask('00.000.000/0000-00');
     }
 
     whenSubmit() {
-        this.element.addEventListener('submit', async function(event) {
+        this.element.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const companyCNPJ = document.getElementById('company-cnpj').value;
-            const companyPassword = document.getElementById('company-password').value;
+            const cnpj = document.getElementById('cnpj').value;
+            const password = document.getElementById('password').value;
 
             const response = await fetch(this.url, {
                 method: 'POST',
@@ -25,8 +25,8 @@ class FormLogin {
                     'X-CSRF-TOKEN': this.token
                 },
                 body: JSON.stringify({
-                    companyCNPJ: companyCNPJ,
-                    companyPassword: companyPassword
+                    cnpj: cnpj,
+                    password: password
                 })
             });
 
