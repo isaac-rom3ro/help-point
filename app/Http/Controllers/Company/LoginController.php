@@ -4,36 +4,35 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Company;
 use App\Services\Company\LoginService;
-use App\Helpers\Format;
 
 class LoginController extends Controller
 {
+    // View
     public function showLoginForm()
     {
         return view('company.login');
     }   
 
+    // Login Logic
     public function login(Request $request)
     {
         if (LoginService::inputsAreValid(request: $request) === false) {
             return response()->noContent(400);
         } 
 
-        $cnpj = Format::removeNonDigits($request->input('cnpj'));
+        $isValid = LoginService::store(request: $request);
 
-        if (LoginService::companyExists(cnpj: $cnpj) === false) {
-            return response()->noContent(404);
-        }
-            
-        if (LoginService::passwordsMatch(cnpj: $cnpj, formPassword: $request->input('password')) === false) {
-            return response()->noContent(401);
+        if ($isValid !== true) {
+            $errorCode = $isValid->getCode();
+            response()->noContent($errorCode);
         }
 
-        $id = Company::where('cnpj', '=', $cnpj)->value('id');
+        $isSessioned = LoginService::sessionStore($request);
 
-        $request->session()->put('employee_id', $id);
+        if ($isSessioned === false) {
+            return response()->noContent(500);
+        }
 
         return response()->noContent(200);
     }

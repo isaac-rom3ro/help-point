@@ -43,7 +43,7 @@ class DashboardController extends Controller
 
     public function showAllEmployees()
     {
-        return Employee::select('*')->where('company_id', '=', session('uuid'))->get();
+        return Employee::select('*')->where('company_id', '=', session('company_identifier'))->get();
     }
 
     /**

@@ -2,8 +2,10 @@
 
 namespace App\Services\Company;
 
+use Exception;
 use App\Helpers\Format;
 use App\Models\Employee;
+use App\Helpers\Checkers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +13,7 @@ use App\Models\EmployeeFirstAccess;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Company\EmailService;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Mailer\Exception\TransportException;
 
 class EmployeeService {
     public static function inputsAreValid(Request $request)
@@ -31,31 +34,49 @@ class EmployeeService {
 
     public static function store(Request $request, string $generatedPassword)
     {
+        $companyId = session('company_identifier') ?? null;
+        
+        if ($companyId === null) {
+            throw new Exception(message: '', code: 400);
+        }
+
+        if (Checkers::companyExists(id: $companyId) === false) {
+            throw new Exception(message: '', code: 404);
+        }
+
         $name = $request->input('name');
         $cpf = $request->input('cpf');
         $email = $request->input('email');
         $whatsapp = Format::removeNonDigits($request->input('whatsapp'));
         $role = $request->input('role');
         $assignedHours = intval($request->input('assignedHours'));
-        $companyId = session('uuid');
 
-        $employee = Employee::firstOrCreate([
-            'name' => $name,
-            'cpf' => Format::removeNonDigits(string: $cpf),
-            'email' => $email,
-            'whatsapp' => $whatsapp,
-            'password' => Hash::make($generatedPassword),
-            'role' => $role,
-            'assigned_hours' => $assignedHours,
-            'company_id' => $companyId
-        ]); 
+        DB::beginTransaction();
 
-        EmployeeFirstAccess::create([
-            'company_id' => $companyId,
-            'employee_id' => $employee->id
-        ]);
+        try {
+            $employee = Employee::firstOrCreate([
+                'name' => $name,
+                'cpf' => Format::removeNonDigits(string: $cpf),
+                'email' => $email,
+                'whatsapp' => $whatsapp,
+                'password' => Hash::make($generatedPassword),
+                'role' => $role,
+                'assigned_hours' => $assignedHours,
+                'company_id' => $companyId
+            ]); 
 
-        return $employee;
+            EmployeeFirstAccess::create([
+                'company_id' => $companyId,
+                'employee_id' => $employee->id
+            ]);
+        } catch(Exception $e) {
+            DB::rollBack();
+            throw new Exception(message: '', code: $e->getCode());
+        }
+
+        DB::commit();
+
+        return true;
     }
 
     public static function getRandomPassword()
@@ -65,15 +86,17 @@ class EmployeeService {
 
     public static function sendCredentials(Request $request, string $generatedPassword)
     {
-        $name = $request()->input('name');
-        $cpf = $request()->input('cpf');
-        $email = $request()->input('email');
+        try {
+            EmailService::sendCredentialsToEmployee(
+                employeeEmail: $request->input('email'),
+                employeeName: $request->input('name'),
+                employeeCpf: $request->input('cpf'),
+                employeePassword: $generatedPassword
+            );
+        } catch(TransportException $e) {
+            throw new Exception(message: '', code: 503);
+        }
 
-        EmailService::sendCredentialsToEmployee(
-            employeeEmail: $email,
-            employeeName: $name,
-            employeeCpf: $cpf,
-            employeePassword: $generatedPassword
-        );
+        return true;
     }
 }

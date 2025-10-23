@@ -1,10 +1,7 @@
 class FormLogin {
     element = document.querySelector('#form-container');
     url = '/company/login';
-<<<<<<< Updated upstream
-=======
     dashboard = '/company/dashboard';
->>>>>>> Stashed changes
     token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     setMask() {

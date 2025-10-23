@@ -23,7 +23,7 @@
     <div class="content">
       <form id="form-container" class="form-container">
         <h3 class="text-center mb-4">Registre sua Empresa</h3>
-        <input type="text" id="name" class="form-control" placeholder="Nome da Empresa">
+        <input type="text" id="legal-name" class="form-control" placeholder="Nome da Empresa">
         <input type="text" id="cnpj" class="form-control" placeholder="CNPJ">
         <input type="password" id="password" class="form-control" placeholder="Senha">
         <button type="submit" class="btn btn-primary mt-2">Registrar</button>
@@ -48,39 +48,6 @@
   <script>
     $(function() {
       formRegister.setMask();
-    });
-  </script>
-
-  <script>
-    form.addEventListener('submit', async function(event) {
-      event.preventDefault();
-
-      const companyName = document.getElementById('company-name').value;
-      const companyCNPJ = document.getElementById('company-cnpj').value;
-      const companyPassword = document.getElementById('company-password').value;
-
-      const registerCompanyURL = '/company/register';
-
-      const response = await fetch(registerCompanyURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-          companyName: companyName,
-          companyCNPJ: companyCNPJ,
-          companyPassword: companyPassword
-        })
-      });
-
-      if (response.status === 201) {
-        location.href = '/company/login';
-      }
-
-      console.log(response);
-      formRegister.setMask();
-
       formRegister.whenSubmit();
     });
   </script>

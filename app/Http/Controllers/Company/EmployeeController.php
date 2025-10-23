@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Company\EmployeeService;
+use Exception;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Register new user
     public function store(Request $request)
     {
         if (
@@ -20,41 +19,23 @@ class EmployeeController extends Controller
         }
 
         $password = EmployeeService::getRandomPassword();
-        EmployeeService::store(request: $request, generatedPassword: $password);
-        EmployeeService::sendCredentials(request: $request, generatedPassword: $password);
+
+        try {
+            EmployeeService::store(request: $request, generatedPassword: $password);
+        } catch (Exception $e) {
+            return response()->noContent($e->getCode());
+        }
+
+        try {
+            EmployeeService::sendCredentials(request: $request, generatedPassword: $password);
+        } catch (Exception $e) {
+             return response()->noContent($e->getCode());
+        }
+
+        // TODO
+        // If the email was not sent, send to company registered email.
+        // If not successful, delete the registered employee
         
         return response()->noContent(201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

@@ -48,8 +48,6 @@
                                 <tr>
                                     <th>Nome</th>
                                     <th>Cargo</th>
-                                    <th>WhatsApp</th>
-                                    <th>E-mail</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -58,8 +56,6 @@
                                     <tr id="{{ $employee->id }}">
                                         <td>{{ $employee->name }}</td>
                                         <td>{{ $employee->role }}</td>
-                                        <td>{{ $employee->formatted_whatsapp }}</td>
-                                        <td>{{ $employee->email }}</td>
                                         <td>
                                             <div class="action-icons">
                                                 <i class="bi bi-eye action-icon" title="Visualizar"></i>
