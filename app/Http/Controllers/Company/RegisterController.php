@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Helpers\CNPJ;
+use App\Helpers\Format;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Company\RegisterService;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -31,7 +30,7 @@ class RegisterController extends Controller
         }
 
         $legalName = $request->input('legalName');
-        $cnpj = CNPJ::removeNonDigits($request->input('cnpj'));
+        $cnpj = Format::removeNonDigits($request->input('cnpj'));
         $password = Hash::make($request->input('password'));
 
         Company::create([

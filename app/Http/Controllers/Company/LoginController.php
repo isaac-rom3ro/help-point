@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Services\Company\LoginService;
-use App\Helpers\CNPJ;
+use App\Helpers\Format;
 
 class LoginController extends Controller
 {
@@ -21,7 +21,7 @@ class LoginController extends Controller
             return response()->noContent(400);
         } 
 
-        $cnpj = CNPJ::removeNonDigits($request->input('cnpj'));
+        $cnpj = Format::removeNonDigits($request->input('cnpj'));
 
         if (LoginService::companyExists(cnpj: $cnpj) === false) {
             return response()->noContent(404);
