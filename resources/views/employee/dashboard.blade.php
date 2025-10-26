@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,11 +51,11 @@
             <div class="modal-body">
                 <label for="register-select">O que você deseja registrar?</label>
                 <select name="register-select" id="slt-log-type">
-                    <option value="time-in">Chegada</option>
+                    <!-- <option value="time-in">Chegada</option>
                     <option value="lunch-in">Pausa para Almoço</option>
                     <option value="lunch-out">De Volta do Almoço</option>
                     <option value="time-out">Encerrando o Expediente</option>
-                    <option value="other">Outro Tipo de Registro</option>
+                    <option value="other">Outro Tipo de Registro</option> -->
                 </select>
                 
                 <input id="ipt-other-purpose" hidden type="text" placeholder="Motivo...">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Services\Employee\LogService;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +13,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('employee.dashboard');
+        $availableLogs = LogService::getAvailableLogs(session('employee_identifier'));
+        return view('employee.dashboard')->with('logs', $availableLogs);
     }
 
     /**

@@ -2,6 +2,11 @@
 
 namespace App\Services\Employee;
 
+use App\Models\Employee;
+use Illuminate\Support\Collection;
+
+use function PHPUnit\Framework\isEmpty;
+
 class LogService {
     public static function filterLog(
         string $companyId,
@@ -39,5 +44,20 @@ class LogService {
         }
 
         return $log;
+    }
+
+    public static function isTherePendingLog(string $employeeId)
+    {
+        Employee::where('status', '<>', 'DONE')->groupBy($employeeId)->orderBy('created_at', 'desc')->limit(1)->exists();
+    }
+
+    public static function getAvailableLogs(string $employeeId)
+    {
+
+        $logs = Employee::where('employee_id', '=', $employeeId)->where('status', '<>', 'DONE')->first();
+
+        if (! isEmpty($logs->time_in)) {
+            return new Collection(['time-in', 'other']);
+        }
     }
 }

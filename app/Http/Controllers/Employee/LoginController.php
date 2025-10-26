@@ -97,6 +97,8 @@ class LoginController extends Controller
             'status' => 'DONE'
         ]);
 
+        session(['employee_identifier' => $employeeId]);
+
         return response()->noContent(201);
     }
 }
