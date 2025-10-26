@@ -60,7 +60,7 @@
                                             <div class="action-icons">
                                                 <i class="bi bi-eye action-icon" title="Visualizar"></i>
                                                 <i class="bi bi-pencil action-icon" title="Editar"></i>
-                                                <i class="bi bi-trash action-icon delete" title="Excluir"></i>
+                                                <i id="btn-delete-employee" class="bi bi-trash action-icon delete" title="Excluir"></i>
                                             </div>
                                         </td>
                                     </tr>
@@ -137,6 +137,22 @@
 $(function () {
     formEmployee.setMask();
     formEmployee.store();
+
+
+    const btnDeleteEmployee = document.querySelector('#btn-delete-employee');
+
+    btnDeleteEmployee.addEventListener('click', async (event) => {
+        const id = 'Testing';
+        const url = '/company/dashboard/employee/' + id;
+
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')   
+            }
+        });
+    })
 });
 </script>
 </body>

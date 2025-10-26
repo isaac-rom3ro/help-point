@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Services\Company\EmployeeService;
 use Exception;
 
@@ -37,5 +38,9 @@ class EmployeeController extends Controller
         // If not successful, delete the registered employee
         
         return response()->noContent(201);
+    }
+
+    public function destroy($employeeId) {
+        Employee::destroy($employeeId);
     }
 }
