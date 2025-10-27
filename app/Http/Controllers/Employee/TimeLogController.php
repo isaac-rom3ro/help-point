@@ -12,8 +12,6 @@ class TimeLogController extends Controller
 {
     public function storeNewLog(Request $request)
     {
-        $requests = $request->all();
-
         $validator = Validator::make($request->all(), [
             'logType' => [
                 'required',

@@ -2,10 +2,8 @@
 
 namespace App\Services\Employee;
 
-use App\Models\Employee;
+use App\Models\TimeLog;
 use Illuminate\Support\Collection;
-
-use function PHPUnit\Framework\isEmpty;
 
 class LogService {
     public static function filterLog(
@@ -46,18 +44,68 @@ class LogService {
         return $log;
     }
 
+    private static function getOptionsMessageAsObject($availableOption)
+    {
+        $type = '';
+        $message = '';
+
+        // The other option cant be absent 
+        $options = [
+            [
+                'type' => '',
+                'message' => ''
+            ],
+            [
+                'type' => 'other',
+                'message' => 'Outro Tipo de Registro'
+            ]
+        ];
+
+        switch($availableOption) {
+            case 'time-in':
+                $type = $availableOption;
+                $message = 'Chegada';
+            break;
+            case 'lunch-in':
+                $type = $availableOption;
+                $message = 'Pausa para Almoço';
+            break;
+            case 'lunch-out':
+                $type = $availableOption;
+                $message = 'De Volta do Almoço';
+            break;
+            case 'time-out':
+                $type = $availableOption;
+                $message = 'Encerrando o Expediente';
+            break;
+        }
+
+        $options[0]['type'] = $type;
+        $options[0]['message'] = $message;
+
+        $collection = [];
+
+        foreach($options as $index => $option) {
+            $collection[$index] = (object) [
+                'type' => $option['type'],
+                'message' => $option['message'],
+            ];
+        }
+
+        return $collection;
+    }
+
     public static function isTherePendingLog(string $employeeId)
     {
-        Employee::where('status', '<>', 'DONE')->groupBy($employeeId)->orderBy('created_at', 'desc')->limit(1)->exists();
+        return TimeLog::where('status', '<>', 'OPEN')->groupBy('employee_id')->orderBy('created_at', 'desc')->limit(1)->exists();
     }
 
     public static function getAvailableLogs(string $employeeId)
     {
-
-        $logs = Employee::where('employee_id', '=', $employeeId)->where('status', '<>', 'DONE')->first();
-
-        if (! isEmpty($logs->time_in)) {
-            return new Collection(['time-in', 'other']);
+        // If there is no pending log, it should start a fresh log
+        $isTherePending = self::isTherePendingLog(employeeId: $employeeId);
+        if ($isTherePending === false) {
+            return self::getOptionsMessageAsObject(availableOption: 'time-in');
         }
     }
 }

@@ -51,6 +51,9 @@
             <div class="modal-body">
                 <label for="register-select">O que você deseja registrar?</label>
                 <select name="register-select" id="slt-log-type">
+                    @foreach ($logs as $option)
+                        <option value="{{ $option->type }}">{{ $option->message }}</option>
+                    @endforeach
                     <!-- <option value="time-in">Chegada</option>
                     <option value="lunch-in">Pausa para Almoço</option>
                     <option value="lunch-out">De Volta do Almoço</option>
