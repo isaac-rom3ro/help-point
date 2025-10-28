@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Checkers;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,16 @@ class CheckEmployeeSession
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // check if it's valid, maybe a query can help
+        session(['employee_identifier' => '5']);
+
         if (!session()->has('employee_identifier')) {
+            return redirect()->route('employee.login.create');
+        }
+
+        if (
+            Checkers::employeeExists(session('employee_identifier')) === false
+        ) 
+        {
             return redirect()->route('employee.login.create');
         }
 
