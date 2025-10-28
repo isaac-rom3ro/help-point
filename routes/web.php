@@ -31,7 +31,7 @@ Route::prefix('company')->name('company.')->group(function () {
         Route::post('/', [CompanyLoginController::class, 'login'])->name('login');
     });
 
-    Route::prefix('dashboard')->name('dashboard.')->group(function() {
+    Route::middleware('company-session')->prefix('dashboard')->name('dashboard.')->group(function() {
         Route::get('/', [CompanyDashboardController::class, 'index'])->name('dashboard');
 
         Route::prefix('employee')->name('employee.')->group(function () {
@@ -49,7 +49,7 @@ Route::prefix('employee')->name('employee.')->group(function () {
         Route::post('/password', [EmployeeLoginController::class, 'updatePassword'])->name('password');
     });
 
-    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::middleware('employee-session')->prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [EmployeeDashboardController::class, 'index'])->name('index');
 
         Route::prefix('time-log')->name('time-log.')->group(function (){
