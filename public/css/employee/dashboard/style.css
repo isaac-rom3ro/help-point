@@ -206,6 +206,34 @@ html, body {
     color: white;
 }
 
+#modal-overlay .modal-body input[type="text"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+#modal-overlay .modal-body input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#modal-overlay .modal-body input[type="text"]:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+#modal-overlay .modal-body select option {
+    background-color: #0056b3;
+    color: white;
+}
+
 #modal-overlay .modal-footer {
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     padding: 1.5rem;
