@@ -43,7 +43,6 @@
             <input type="text" class="form-control mb-3" id="employee-cpf-update-password" placeholder="CPF">
             <input type="password" class="form-control mb-3" id="current-password" placeholder="Senha Atual">
             <input type="password" class="form-control mb-3" id="new-password" placeholder="Nova Senha">
-            <!-- <input type="password" class="form-control" id="confirm-password" placeholder="Confirmar Senha"> -->
           </form>
         </div>
         <div class="modal-footer border-0">
