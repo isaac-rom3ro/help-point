@@ -20,19 +20,19 @@ class LogService {
 
         switch($type) {
             case 'time-in':
-                $log['time-in'] = $time; 
+                $log['time_in'] = $time; 
             break;
 
             case 'lunch-in':
-                $log['lunch-in'] = $time; 
+                $log['lunch_in'] = $time; 
             break;
 
             case 'lunch-out':
-                $log['lunch-out'] = $time; 
+                $log['lunch_out'] = $time; 
             break;
 
             case 'time-out':
-                $log['time-out'] = $time; 
+                $log['time_out'] = $time; 
             break;
 
             default:
@@ -44,44 +44,19 @@ class LogService {
         return $log;
     }
 
-    private static function getOptionsMessageAsObject($availableOption)
+    private static function getFreshOptionsAsObject()
     {
-        $type = '';
-        $message = '';
-
-        // The other option cant be absent 
+        // Fresh Start 
         $options = [
             [
-                'type' => '',
-                'message' => ''
+                'type' => 'time-in',
+                'message' => 'Chegada'
             ],
             [
                 'type' => 'other',
                 'message' => 'Outro Tipo de Registro'
             ]
         ];
-
-        switch($availableOption) {
-            case 'time-in':
-                $type = $availableOption;
-                $message = 'Chegada';
-            break;
-            case 'lunch-in':
-                $type = $availableOption;
-                $message = 'Pausa para Almoço';
-            break;
-            case 'lunch-out':
-                $type = $availableOption;
-                $message = 'De Volta do Almoço';
-            break;
-            case 'time-out':
-                $type = $availableOption;
-                $message = 'Encerrando o Expediente';
-            break;
-        }
-
-        $options[0]['type'] = $type;
-        $options[0]['message'] = $message;
 
         $collection = [];
 
@@ -95,17 +70,69 @@ class LogService {
         return $collection;
     }
 
-    public static function isTherePendingLog(string $employeeId)
+    private static function isTherePendingLog(string $employeeId)
     {
         return TimeLog::where('status', '<>', 'OPEN')->groupBy('employee_id')->orderBy('created_at', 'desc')->limit(1)->exists();
+    }
+
+    private static function getOpenedLog()
+    {
+        return TimeLog::where('status', '=', 'OPEN')->groupBy('employee_id')->orderBy('created_at', 'desc')->limit(1)->first();
+    }
+
+    private static function checkNotFilledColumn(TimeLog $timeLog)
+    {
+        if ($timeLog->lunch_in === null) return [
+            'type' => 'lunch-in',
+            'message' => 'Pausa para Almoço'
+        ];
+
+        if ($timeLog->lunch_out === null) return [
+            'type' => 'lunch-out',
+            'message' => 'De Volta do Almoço'
+        ];
+
+        if ($timeLog->time_out === null) return [
+            'type' => 'time-out',
+            'message' => 'Encerrando o Expediente'
+        ];
+    }
+
+    private static function getAvailableOptionsAsObject() 
+    {
+        $availableOption = self::checkNotFilledColumn(self::getOpenedLog());
+
+        $options = [
+            [
+                'type' => $availableOption['type'],
+                'message' => $availableOption['message']
+            ],
+            [
+                'type' => 'other',
+                'message' => 'Outro Tipo de Registro'
+            ]
+        ];
+
+        foreach($options as $index => $option) {
+            $collection[$index] = (object) [
+                'type' => $option['type'],
+                'message' => $option['message'],
+            ];
+        }
+
+        return $collection;
     }
 
     public static function getAvailableLogs(string $employeeId)
     {
         // If there is no pending log, it should start a fresh log
         $isTherePending = self::isTherePendingLog(employeeId: $employeeId);
+
         if ($isTherePending === false) {
-            return self::getOptionsMessageAsObject(availableOption: 'time-in');
+            return self::getFreshOptionsAsObject();
         }
+
+
+        return self::getAvailableOptionsAsObject();
     }
 }
