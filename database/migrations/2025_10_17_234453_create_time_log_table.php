@@ -20,10 +20,10 @@ return new class extends Migration
             $table->uuid('employee_id');
             $table->foreign('employee_id')->references('id')->on('employee')->onDelete('cascade');
 
-            $table->string('time-in')->nullable(true);
-            $table->string('lunch-in')->nullable(true);
-            $table->string('lunch-out')->nullable(true);
-            $table->string('time-out')->nullable(true);
+            $table->string('time_in')->nullable(true);
+            $table->string('lunch_in')->nullable(true);
+            $table->string('lunch_out')->nullable(true);
+            $table->string('time_out')->nullable(true);
             $table->json('other')->nullable(true);
 
 
