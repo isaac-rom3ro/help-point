@@ -132,27 +132,12 @@
 
 <!-- JS -->
  <script src="{{ asset('js/company/dashboard/FormEmployee.js') }}"></script>
-
+ <script src="{{ asset('js/company/dashboard/EmployeeActions.js') }}"></script>
 <script>
 $(function () {
     formEmployee.setMask();
     formEmployee.store();
-
-
-    const btnDeleteEmployee = document.querySelector('#btn-delete-employee');
-
-    btnDeleteEmployee.addEventListener('click', async (event) => {
-        const id = 'Testing';
-        const url = '/company/dashboard/employee/' + id;
-
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')   
-            }
-        });
-    })
+    employeeActions.delete();
 });
 </script>
 </body>

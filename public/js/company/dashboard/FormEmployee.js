@@ -10,7 +10,7 @@ class FormEmployee {
 
     store() {
         this.element.addEventListener('submit', async (event) => {
-            event.preventDefault(); 
+            event.preventDefault; 
 
             const name = document.querySelector('#name').value;
             const cpf = document.querySelector('#cpf').value;

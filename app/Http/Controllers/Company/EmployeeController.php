@@ -42,5 +42,7 @@ class EmployeeController extends Controller
 
     public function destroy($employeeId) {
         Employee::destroy($employeeId);
+        
+        return response()->noContent(200);
     }
 }
