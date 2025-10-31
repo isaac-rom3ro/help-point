@@ -40,7 +40,11 @@ class EmployeeController extends Controller
         return response()->noContent(201);
     }
 
-    public function destroy($employeeId) {
+    public function view(string $employeeId) {
+        return response()->noContent(200);
+    }
+
+    public function destroy(string $employeeId) {
         Employee::destroy($employeeId);
         
         return response()->noContent(200);

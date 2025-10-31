@@ -58,7 +58,7 @@
                                         <td>{{ $employee->role }}</td>
                                         <td>
                                             <div class="action-icons">
-                                                <i class="bi bi-eye action-icon" title="Visualizar"></i>
+                                                <i id="btn-view-employee" class="bi bi-eye action-icon" title="Visualizar"></i>
                                                 <i class="bi bi-pencil action-icon" title="Editar"></i>
                                                 <i id="btn-delete-employee" class="bi bi-trash action-icon delete" title="Excluir"></i>
                                             </div>
