@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employee;
 
+use App\Helpers\Getters;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\TimeLog;
@@ -36,8 +37,8 @@ class TimeLogController extends Controller
         $type = $request->input('logType');
         $time = $request->input('time');
 
-        $companyId = '';
-        $employeeId = '';
+        $companyId = Getters::getCompanyIdByEmployeeId(session('employee_identifier'));
+        $employeeId = session('employee_identifier');
 
         $row = LogService::filterLog(
             companyId: $companyId,

@@ -3,7 +3,6 @@
 namespace App\Services\Employee;
 
 use App\Models\TimeLog;
-use Illuminate\Support\Collection;
 
 class LogService {
     public static function filterLog(
@@ -75,9 +74,9 @@ class LogService {
         return TimeLog::where('status', '<>', 'OPEN')->groupBy('employee_id')->orderBy('created_at', 'desc')->limit(1)->exists();
     }
 
-    private static function getOpenedLog()
+    private static function getOpenedLog(string $employeeId)
     {
-        return TimeLog::where('status', '=', 'OPEN')->groupBy('employee_id')->orderBy('created_at', 'desc')->limit(1)->first();
+        return TimeLog::where('employee_id', '=', $employeeId)->orderBy('created_at', 'desc')->first();
     }
 
     private static function checkNotFilledColumn(TimeLog $timeLog)
@@ -98,9 +97,9 @@ class LogService {
         ];
     }
 
-    private static function getAvailableOptionsAsObject() 
+    private static function getAvailableOptionsAsObject(string $employeeId) 
     {
-        $availableOption = self::checkNotFilledColumn(self::getOpenedLog());
+        $availableOption = self::checkNotFilledColumn(self::getOpenedLog($employeeId));
 
         $options = [
             [
@@ -133,6 +132,6 @@ class LogService {
         }
 
 
-        return self::getAvailableOptionsAsObject();
+        return self::getAvailableOptionsAsObject(session('employee_identifier'));
     }
 }
