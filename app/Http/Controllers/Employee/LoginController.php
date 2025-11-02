@@ -52,9 +52,7 @@ class LoginController extends Controller
             return response()->noContent(202);
         }
 
-        $id = Employee::where('cpf', '=', $employeeCpf)->value('id');
-
-        $request->session()->put('uuid', $id);
+        session(['employee_identifier' => $employeeId]);
 
         return response()->noContent(200);
     }
@@ -96,8 +94,6 @@ class LoginController extends Controller
         EmployeeFirstAccess::where('employee_id', '=', $employeeId)->update([
             'status' => 'DONE'
         ]);
-
-        session(['employee_identifier' => $employeeId]);
 
         return response()->noContent(201);
     }

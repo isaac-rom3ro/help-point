@@ -37,4 +37,4 @@ class Employee extends Model
              . substr($number, 3, 4) . '-' 
              . substr($number, 7);
     }
-}
+}   

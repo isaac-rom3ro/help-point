@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Company\RegisterService;
@@ -17,6 +18,8 @@ class RegisterController extends Controller
     // Store new Company
     public function store(Request $request)
     {
+        Company::factory()->create();
+
         if (RegisterService::inputsAreValid($request) === false)
         {
             return response()->noContent(400);

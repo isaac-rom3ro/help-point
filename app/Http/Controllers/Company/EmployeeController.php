@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Services\Company\EmployeeService;
 use Exception;
 
@@ -12,6 +13,8 @@ class EmployeeController extends Controller
     // Register new user
     public function store(Request $request)
     {
+        Employee::factory()->create();
+
         if (
             EmployeeService::inputsAreValid($request) === false
         ) {
