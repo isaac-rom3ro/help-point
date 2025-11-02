@@ -40,22 +40,36 @@ class TimeLogController extends Controller
         $companyId = Getters::getCompanyIdByEmployeeId(session('employee_identifier'));
         $employeeId = session('employee_identifier');
 
-        $row = LogService::filterLog(
-            companyId: $companyId,
-            employeeId: $employeeId,
-            type: $type, 
-            time: $time
-        );
+        if (LogService::isTherePendingLog($employeeId) === false) {
+            $row = LogService::filterFreshLog(
+                companyId: $companyId,
+                employeeId: $employeeId,
+                type: $type, 
+                time: $time
+            );
+            
+            TimeLog::create(
+                $row
+            );
 
-        TimeLog::create(
-            $row
-        );
-        
+            return response()->noContent(201);
+        } 
+
+        $row = LogService::filterUpdateLog($type, $time);
+
+        if ($row['type'] === 'time_out') {
+            TimeLog::where('employee_id', '=', $employeeId)->where('status', '=', 'ACTIVE')->update([
+                $row['type'] => $row['time'],
+                'status' => 'CLOSED'
+            ]);
+        }
+
+        TimeLog::where('employee_id', '=', $employeeId)->where('status', '=', 'ACTIVE')->update([
+            $row['type'] => $row['time']
+        ]);
+
         return response()->noContent(200);
     }
-
-
-
 
     /**
      * Display a listing of the resource.

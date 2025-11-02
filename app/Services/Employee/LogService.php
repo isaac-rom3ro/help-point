@@ -5,7 +5,20 @@ namespace App\Services\Employee;
 use App\Models\TimeLog;
 
 class LogService {
-    public static function filterLog(
+    public static function getAvailableLogs(string $employeeId)
+    {
+        // If there is no pending log, it should start a fresh log
+        $isTherePending = self::isTherePendingLog(employeeId: $employeeId);
+
+        if ($isTherePending === false) {
+            return self::getFreshOptionsAsObject();
+        }
+
+
+        return self::getAvailableOptionsAsObject(session('employee_identifier'));
+    }
+
+    public static function filterFreshLog(
         string $companyId,
         string $employeeId,
         string $type, 
@@ -43,6 +56,49 @@ class LogService {
         return $log;
     }
 
+    public static function filterUpdateLog(string $type, string $time)
+    {
+        switch($type) {
+            case 'time-in':
+                $log = [
+                    'type' => 'time_in',
+                    'time' =>  $time 
+                ];
+            break;
+
+            case 'lunch-in':
+                $log = [
+                    'type' => 'lunch_in',
+                    'time' => $time 
+                ];
+            break;
+
+            case 'lunch-out':
+                $log = [
+                    'type' => 'lunch_out',
+                    'time' => $time 
+                ];
+            break;
+
+            case 'time-out':
+                $log = [
+                    'type' => 'time_out',
+                    'time' => $time
+                ];
+            break;
+
+            default:
+                // TO DO FORMAT IT 
+                $log = [
+                    'type' => 'other',
+                    'time' => $time
+                ];
+            break;
+        }
+
+        return $log;
+    }
+
     private static function getFreshOptionsAsObject()
     {
         // Fresh Start 
@@ -69,9 +125,9 @@ class LogService {
         return $collection;
     }
 
-    private static function isTherePendingLog(string $employeeId)
+    public  static function isTherePendingLog(string $employeeId)
     {
-        return TimeLog::where('status', '<>', 'OPEN')->groupBy('employee_id')->orderBy('created_at', 'desc')->limit(1)->exists();
+        return TimeLog::where('status', '=', 'ACTIVE')->groupBy('employee_id')->orderBy('created_at', 'desc')->limit(1)->exists();
     }
 
     private static function getOpenedLog(string $employeeId)
@@ -120,18 +176,5 @@ class LogService {
         }
 
         return $collection;
-    }
-
-    public static function getAvailableLogs(string $employeeId)
-    {
-        // If there is no pending log, it should start a fresh log
-        $isTherePending = self::isTherePendingLog(employeeId: $employeeId);
-
-        if ($isTherePending === false) {
-            return self::getFreshOptionsAsObject();
-        }
-
-
-        return self::getAvailableOptionsAsObject(session('employee_identifier'));
     }
 }
